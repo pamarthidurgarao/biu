@@ -1,0 +1,63 @@
+.my-form-field{
+    border: 1px solid !important;
+}
+.mat-card{
+    padding: 0px !important;
+}
+.mat-form-field {
+    padding-left: 10px !important;
+}
+mat-grid-tile {
+    background: lightblue;
+  }
+
+.left-body {
+    width: 40%;
+    position: absolute;
+    bottom: 0px;
+    top: 107px;
+}
+.right-body {
+    width: 60%;
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    top: 107px;
+}
+
+
+
+
+.example-container {
+    height: 40%;
+    overflow: auto;
+  }
+  
+  table {
+    width: 100%;
+  }
+  
+  tr.mat-footer-row {
+    font-weight: bold;
+  }
+  
+  .mat-table-sticky {
+    border-top: 1px solid #e0e0e0;
+  }
+  tr.mat-header-row {
+    height: 0px;
+}
+
+.gst{
+    padding: 10px !important;
+}
+.discount{
+    padding: 10px !important;
+} 
+.sms{
+    padding: 10px !important;
+}
+.actions{
+    position: absolute;
+    bottom: 0px;
+}

@@ -1,0 +1,28 @@
+.sidenav-container {
+  height: 100%;
+}
+.sidenav {
+  width: 15%;
+}
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  height: 0px;
+  min-height: 40px !important;
+}
+
+.rightHead {
+  right: 5px;
+  position: absolute;
+}
+.profileImg {
+  width: 35px;
+  height: 35px;
+}
+.profileMenuStyle {
+  margin-top: 43px;
+}
+.mat-menu-panel.ng-trigger.ng-trigger-transformMenu.ng-tns-c8-1.profileMenuStyle.mat-menu-before.mat-menu-below.mat-elevation-z2.ng-star-inserted {
+  margin-top: 43px;
+}
+

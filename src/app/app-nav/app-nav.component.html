@@ -1,0 +1,35 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport="true" [attr.role]="'dialog'" [mode]="over">
+    <mat-toolbar color="primary">Menu</mat-toolbar>
+    <mat-nav-list (click)="drawer.toggle()">
+      <a mat-list-item href="billing">Billing</a>
+      <a mat-list-item href="#">Schedule</a>
+      <a mat-list-item href="customer">Customers</a>
+      <a mat-list-item href="setup">Setup</a>
+      <a mat-list-item href="#">Reports</a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <mat-toolbar-row>
+        <div class="leftHead">
+          <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()">
+            <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+          </button>
+          <span>Org</span>
+        </div>
+        <div class="rightHead">
+          <img [matMenuTriggerFor]="profileMenu" class="profileImg" src="https://cdn.iconscout.com/public/images/icon/premium/png-256/account-avatar-male-man-person-profile-363ed8899dda8c42-256x256.png">
+        </div>
+      </mat-toolbar-row>
+      <mat-menu #profileMenu="matMenu" class="profileMenuStyle">
+        <button mat-menu-item>
+          <mat-icon>exit_to_app</mat-icon>
+          <span>Log Out</span>
+        </button>
+      </mat-menu>
+    </mat-toolbar>
+    <!-- Add Content Here -->
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

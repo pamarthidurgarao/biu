@@ -1,0 +1,134 @@
+<div class="content">
+  <div class="head">
+    <mat-card>
+      <mat-form-field>
+        <mat-select placeholder="Source">
+          <mat-option *ngFor="let source of sources" [value]="source">
+            {{source}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Phone Number" type="number">
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Customer Name">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-select placeholder="Gender">
+          <mat-option value="Male">Male</mat-option>
+          <mat-option value="Female">Female</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput [matDatepicker]="picker" placeholder="Choose a date">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </mat-card>
+  </div>
+  <div class="body">
+    <mat-card class="left-body" style="overflow-y: auto">
+      <mat-form-field>
+        <mat-select placeholder="Services">
+          <mat-option *ngFor="let source of sources" [value]="source">
+            {{source}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-select placeholder="Products">
+          <mat-option *ngFor="let source of sources" [value]="source">
+            {{source}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-accordion>
+        <mat-expansion-panel *ngFor="let service of serviceData">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{service.serviceName}}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-list role="list">
+            <mat-list-item role="listitem" *ngFor="let serviceType of service.data">
+              <div>
+                <span class="itemHead">{{serviceType.name}}</span>
+                <div style="color: darkgray">
+                  <span class="timeDesc">{{serviceType.time}} {{serviceType.timeType}}</span>
+                  <span>&nbsp;|&nbsp;</span>
+                  <span>{{serviceType.gender}}</span>
+                </div>
+              </div>
+              <div style="right: 0px; position: absolute">
+                <span>{{serviceType.price}}</span>
+                &nbsp;
+                <mat-checkbox (change)="addService(serviceType,$event)"></mat-checkbox>
+              </div>
+            </mat-list-item>
+          </mat-list>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </mat-card>
+
+
+    <mat-card class="right-body">
+      <div class="example-container mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource">
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Name </th>
+            <td mat-cell *matCellDef="let service"> {{service.name}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="price">
+            <th mat-header-cell *matHeaderCellDef> Price </th>
+            <td mat-cell *matCellDef="let service"> {{service.price }} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef> Action </th>
+            <td mat-cell *matCellDef="let service">
+              <button mat-icon-button color="primary" (click)="removeService(service)">
+                <mat-icon>close</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
+      <mat-card class="gst">
+        <div>
+          <span>Total</span>
+        </div>
+      </mat-card>
+      <mat-card class="discount">
+        <div style="display: inline-flex">
+          <span>Discount</span>
+          <span style="right: 5px; position: absolute">
+            <input matInput style="width: 70px; border-bottom: 1px solid;">%
+          </span>
+        </div>
+        <div>Membership Verification</div>
+      </mat-card>
+      <mat-card class="sms">
+        <span>Payable Amount</span>
+        <div>
+          <span>Send SMS to Customer</span>
+          <span style="right: 10px; position: absolute">
+            <mat-checkbox></mat-checkbox>
+          </span>
+        </div>
+      </mat-card>
+      <mat-card class="actions">
+        <button mat-button color="primary" (click)="removeService(service)">
+          Generate Bill
+        </button>
+        <button mat-button color="primary" (click)="removeService(service)">
+          Book Appointment
+        </button>
+      </mat-card>
+    </mat-card>
+  </div>

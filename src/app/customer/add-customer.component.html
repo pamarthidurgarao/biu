@@ -1,0 +1,49 @@
+<div>
+    <div class="head">
+        <span>{{action}} Customer</span>
+    </div>
+    <div class="body">
+        <form class="example-container" [formGroup]="customerForm">
+            <mat-form-field>
+                <input matInput placeholder="Customer Name" formControlName="customerName">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-select placeholder="Gender" formControlName="gender">
+                    <mat-option value="male">Male</mat-option>
+                    <mat-option value="female">Female</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Customer Email" formControlName="email">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Customer Phone No" formControlName="phoneNo">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Date of Birth" [matDatepicker]="picker" formControlName="dob">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Anniversary" [matDatepicker]="picker1" formControlName="anniversary">
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field class="tags">
+                <mat-chip-list #chipList>
+                    <mat-chip *ngFor="let tag of tags" [selectable]="true" [removable]="true" (removed)="remove(tag)">
+                        {{tag}}
+                        <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
+                    </mat-chip>
+                    <input placeholder="Tags" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="[13,118]" [matChipInputAddOnBlur]="true"
+                        (matChipInputTokenEnd)="add($event)">
+                </mat-chip-list>
+            </mat-form-field>
+            <div class="button-row">
+                <button mat-raised-button color="primary" [disabled]="!customerForm.valid" (click)="addCustomer()">Save</button>
+                <button mat-raised-button color="primary" (click)="closeDailog()">Close</button>
+            </div>
+        </form>
+    </div>
+    <div class="foot"></div>
+</div>
