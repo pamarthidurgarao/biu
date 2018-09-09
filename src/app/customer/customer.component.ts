@@ -6,6 +6,7 @@ import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { AddCustomerDialogComponent } from './add-customer.component';
 import { CustomerService } from '../services/customer.service';
+import { CustomerDTO } from '../model/customer.model';
 
 @Component({
   selector: 'app-customer',
@@ -15,10 +16,10 @@ import { CustomerService } from '../services/customer.service';
 export class CustomerComponent implements OnInit {
 
   displayedColumns: string[] = ['customerName', 'phoneNo', 'email', 'dob', 'anniversary', 'gender', 'tags', 'notes', 'actions'];
-  data: Customer[] = [];
+  data: CustomerDTO[] = [];
   resultsLength = 0;
-  dataSource: MatTableDataSource<Customer>;
-  customer: Customer;
+  dataSource: MatTableDataSource<CustomerDTO>;
+  customer: CustomerDTO;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -56,13 +57,3 @@ export class CustomerComponent implements OnInit {
   }
 }
 
-export class Customer {
-  customerName: string;
-  phoneNo: number;
-  email: string;
-  dob: string;
-  anniversary: string;
-  gender: string;
-  tags: string[];
-  notes: string;
-}

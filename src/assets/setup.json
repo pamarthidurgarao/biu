@@ -1,0 +1,82 @@
+[
+    {
+        "serviceType": "Hair Cut",
+        "data": [
+            {
+                "id": 5,
+                "serviceName": "Basic Haircut - U/V/Straight",
+                "price": 400,
+                "duration": 30,
+                "gender": "Male"
+            },
+            {
+                "id": 1,
+                "serviceName": "Basic Haircut - U/V/Straight",
+                "price": 400,
+                "duration": 30,
+                "gender": "Male"
+            },
+            {
+                "id": 2,
+                "serviceName": "Basic Haircut - U/V/Straight",
+                "price": 400,
+                "duration": 30,
+                "gender": "Male"
+            },
+            {
+                "id": 3,
+                "serviceName": "Basic Haircut - U/V/Straight",
+                "price": 400,
+                "duration": 30,
+                "gender": "Male"
+            },
+            {
+                "id": 4,
+                "serviceName": "Basic Haircut - U/V/Straight",
+                "price": 400,
+                "duration": 30,
+                "gender": "Male"
+            }
+        ]
+    },
+    {
+        "serviceType": "Shave",
+        "data": [
+            {
+                "id": 5,
+                "serviceName": "Basic Haircut - U/V/Straight",
+                "price": 400,
+                "duration": 30,
+                "gender": "Male"
+            },
+            {
+                "id": 1,
+                "serviceName": "Basic Haircut - U/V/Straight",
+                "price": 400,
+                "duration": 30,
+                "gender": "Male"
+            },
+            {
+                "id": 2,
+                "serviceName": "Basic Haircut - U/V/Straight",
+                "price": 400,
+                "duration": 30,
+                "gender": "Male"
+            },
+            {
+                "id": 3,
+                "serviceName": "Basic Haircut - U/V/Straight",
+                "price": 400,
+                "duration": 30,
+                "gender": "Male"
+            },
+            {
+                "id": 4,
+                "serviceName": "Basic Haircut - U/V/Straight",
+                "price": 400,
+                "duration": 30,
+                "gender": "Male"
+            }
+        ]
+    }
+]

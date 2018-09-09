@@ -17,7 +17,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatExpansionModule } from '@angular/material/expansion';
-
+import {MatRadioModule} from '@angular/material/radio';
 import { HttpClientModule } from '@angular/common/http';
 @NgModule({
     imports: [
@@ -42,6 +42,7 @@ import { HttpClientModule } from '@angular/common/http';
         MatCheckboxModule,
         MatGridListModule,
         MatExpansionModule,
+        MatRadioModule,
     ],
     exports: [
         LayoutModule,
@@ -65,6 +66,7 @@ import { HttpClientModule } from '@angular/common/http';
         MatCheckboxModule,
         MatGridListModule,
         MatExpansionModule,
+        MatRadioModule,
     ],
 })
 export class MaterialModule { }

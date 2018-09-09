@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { Customer } from './customer.component';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material';
+import { CustomerDTO } from '../model/customer.model';
 
 export interface Fruit {
     name: string;
@@ -39,7 +39,7 @@ export class AddCustomerDialogComponent implements OnInit {
     isEdit = false;
     action = 'Add';
     constructor(public dialogRef: MatDialogRef<AddCustomerDialogComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: Customer,
+        @Inject(MAT_DIALOG_DATA) public data: CustomerDTO,
         private fb: FormBuilder) { }
 
     ngOnInit() {
@@ -104,7 +104,7 @@ export class AddCustomerDialogComponent implements OnInit {
     }
     addCustomer() {
         console.log('s');
-        const customer = new Customer();
+        const customer = new CustomerDTO();
         customer.customerName = this.customerForm.get('customerName').value;
         customer.anniversary = this.customerForm.get('anniversary').value;
         customer.dob = this.customerForm.get('dob').value;

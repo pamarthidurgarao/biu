@@ -1,49 +1,51 @@
 <div>
     <div class="head">
-        <span>{{action}} Service</span>
+        <span>{{action}} Service in {{serviceType}}</span>
     </div>
-    <div class="body">
-        <form class="example-container" [formGroup]="customerForm">
+    <div class="body" *ngIf="pageType === 'service'">
+        <form class="example-container" [formGroup]="serviceForm">
             <mat-form-field>
-                <input matInput placeholder="Customer Name" formControlName="customerName">
-            </mat-form-field>
-            <mat-form-field>
-                <mat-select placeholder="Gender" formControlName="gender">
+                <mat-select placeholder="Sub Category Name" formControlName="subCategoryName">
                     <mat-option value="male">Male</mat-option>
                     <mat-option value="female">Female</mat-option>
                 </mat-select>
             </mat-form-field>
             <mat-form-field>
-                <input matInput placeholder="Customer Email" formControlName="email">
+                <input matInput placeholder="Service Name" formControlName="serviceName">
             </mat-form-field>
             <mat-form-field>
-                <input matInput placeholder="Customer Phone No" formControlName="phoneNo">
+                <input matInput placeholder="Duration(in Min)" formControlName="duration" type="number">
             </mat-form-field>
             <mat-form-field>
-                <input matInput placeholder="Date of Birth" [matDatepicker]="picker" formControlName="dob">
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
+                <input matInput placeholder="Price Incl Tax(0%)" formControlName="priceInclTax" type="number">
             </mat-form-field>
             <mat-form-field>
-                <input matInput placeholder="Anniversary" [matDatepicker]="picker1" formControlName="anniversary">
-                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                <mat-datepicker #picker1></mat-datepicker>
-            </mat-form-field>
-            <mat-form-field class="tags">
-                <mat-chip-list #chipList>
-                    <mat-chip *ngFor="let tag of tags" [selectable]="true" [removable]="true" (removed)="remove(tag)">
-                        {{tag}}
-                        <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
-                    </mat-chip>
-                    <input placeholder="Tags" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="[13,118]" [matChipInputAddOnBlur]="true"
-                        (matChipInputTokenEnd)="add($event)">
-                </mat-chip-list>
+                <mat-select placeholder="Availablity For" formControlName="gender">
+                    <mat-option value="Male">Male</mat-option>
+                    <mat-option value="Female">Female</mat-option>
+                    <mat-option value="Every One">Every One</mat-option>
+                </mat-select>
             </mat-form-field>
             <div class="button-row">
-                <button mat-raised-button color="primary" [disabled]="!customerForm.valid" (click)="addCustomer()">Save</button>
+                <button mat-raised-button color="primary" [disabled]="!serviceForm.valid" (click)="addService()">Save</button>
                 <button mat-raised-button color="primary" (click)="closeDailog()">Close</button>
             </div>
         </form>
+    </div>
+
+    <!-- Service subtypes adding -->
+    <div class="body" *ngIf="pageType === 'serviceSubType'">
+        <mat-radio-group [(ngModel)]="selectedType">
+            <mat-radio-button value="1" class="mr-3">Service</mat-radio-button>
+            <mat-radio-button value="2" class="mr-3">Sub Category Name</mat-radio-button>
+        </mat-radio-group>
+        <mat-form-field>
+            <input matInput placeholder="Name" [(ngModel)]="subServiceName">
+        </mat-form-field>
+        <div class="button-row">
+            <button mat-raised-button color="primary" (click)="addSubService()">Save</button>
+            <button mat-raised-button color="primary" (click)="closeDailog()">Close</button>
+        </div>
     </div>
     <div class="foot"></div>
 </div>
