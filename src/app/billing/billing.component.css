@@ -15,18 +15,15 @@ mat-grid-tile {
     width: 40%;
     position: absolute;
     bottom: 0px;
-    top: 107px;
+    top: 110px;
 }
 .right-body {
     width: 60%;
     position: absolute;
     right: 0px;
     bottom: 0px;
-    top: 107px;
+    top: 110px;
 }
-
-
-
 
 .example-container {
     height: 40%;
@@ -60,4 +57,12 @@ mat-grid-tile {
 .actions{
     position: absolute;
     bottom: 0px;
+}
+
+label{
+    padding-bottom: 0px !important;
+}
+
+.form-control-sm {
+    border-radius: 0px!important;
 }

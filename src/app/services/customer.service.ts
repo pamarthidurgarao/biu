@@ -11,6 +11,6 @@ export class CustomerService {
   constructor(private http: HttpClient) { }
 
   loadCutomers(): Observable<CustomerDTO[]> {
-    return this.http.get<CustomerDTO[]>('../../assets/setup.json');
+    return this.http.get<CustomerDTO[]>('../../assets/customer.json');
   }
 }

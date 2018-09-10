@@ -1,62 +1,76 @@
 <div class="content">
   <div class="head">
-    <mat-card>
-      <mat-form-field>
-        <mat-select placeholder="Source">
-          <mat-option *ngFor="let source of sources" [value]="source">
-            {{source}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput placeholder="Phone Number" type="number">
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput placeholder="Customer Name">
-      </mat-form-field>
-      <mat-form-field>
-        <mat-select placeholder="Gender">
-          <mat-option value="Male">Male</mat-option>
-          <mat-option value="Female">Female</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput [matDatepicker]="picker" placeholder="Choose a date">
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
-    </mat-card>
+    <div class="form-row">
+      <div class="form-group col-sm-2">
+        <label for="inputEmail4" class="col-form-label-sm">Source</label>
+        <select id="inputState" class="form-control form-control-sm">
+          <option selected>JustDial/Classifieds</option>
+          <option>Nearbuy</option>
+          <option>Little</option>
+          <option>SMS Campaign</option>
+          <option>Email Campaign</option>
+          <option>Call Campaign</option>
+        </select>
+      </div>
+      <div class="form-group col-sm-2">
+        <label for="inputPassword4" class="col-form-label-sm">Phone Number</label>
+        <input type="text" class="form-control form-control-sm" id="inputPassword4" placeholder="Enter Phone Number">
+      </div>
+      <div class="form-group col-sm-2">
+        <label for="inputPassword4" class="col-form-label-sm">Customer Name</label>
+        <input type="text" class="form-control form-control-sm" id="inputCustomerName" placeholder="Enter Customer Name">
+      </div>
+      <div class="form-group col-sm-1">
+        <label for="inputPassword4" class="col-form-label-sm">Gender</label>
+        <select id="inputState" class="form-control form-control-sm">
+          <option selected>Male</option>
+          <option>Female</option>
+        </select>
+      </div>
+
+      <div class="form-group col-sm-2">
+        <label for="inputPassword4" class="col-form-label-sm">Date</label>
+        <div class="input-group">
+          <input class="form-control form-control-sm" [matDatepicker]="picker" placeholder="Select Date">
+          <mat-datepicker #picker></mat-datepicker>
+          <div class="input-group-text form-control-sm" color="primary">
+            <mat-icon (click)="picker.open()">date_range</mat-icon>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <div class="body">
-    <mat-card class="left-body" style="overflow-y: auto">
-      <mat-form-field>
-        <mat-select placeholder="Services">
-          <mat-option *ngFor="let source of sources" [value]="source">
-            {{source}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-select placeholder="Products">
-          <mat-option *ngFor="let source of sources" [value]="source">
-            {{source}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
+    <div class="left-body border-right" style="overflow-y: auto">
+      <div class="form-row">
+        <div class="form-group col-sm-3">
+          <label for="inputEmail4" class="col-form-label-sm">Services</label>
+          <select id="inputState" class="form-control form-control-sm" (change)="serviceSelect($event.target.value)">
+            <option selected value="All">All</option>
+            <option *ngFor="let service of orgServiceData" [value]="service.serviceType">{{service.serviceType}}</option>
+          </select>
+        </div>
+        <div class="form-group col-sm-3">
+          <label for="inputEmail4" class="col-form-label-sm">Products</label>
+          <select id="inputState" class="form-control form-control-sm">
+            <option selected value="all">All</option>
+            <option>...</option>
+          </select>
+        </div>
+      </div>
       <mat-accordion>
         <mat-expansion-panel *ngFor="let service of serviceData">
           <mat-expansion-panel-header>
             <mat-panel-title>
-              {{service.serviceName}}
+              {{service.serviceType}}
             </mat-panel-title>
           </mat-expansion-panel-header>
           <mat-list role="list">
             <mat-list-item role="listitem" *ngFor="let serviceType of service.data">
               <div>
-                <span class="itemHead">{{serviceType.name}}</span>
+                <span class="itemHead">{{serviceType.serviceName}}</span>
                 <div style="color: darkgray">
-                  <span class="timeDesc">{{serviceType.time}} {{serviceType.timeType}}</span>
+                  <span class="timeDesc">{{serviceType.duration}} Min</span>
                   <span>&nbsp;|&nbsp;</span>
                   <span>{{serviceType.gender}}</span>
                 </div>
@@ -70,15 +84,15 @@
           </mat-list>
         </mat-expansion-panel>
       </mat-accordion>
-    </mat-card>
+    </div>
 
 
-    <mat-card class="right-body">
-      <div class="example-container mat-elevation-z8">
+    <div class="right-body border-left">
+      <div class="example-container m-1">
         <table mat-table [dataSource]="dataSource">
           <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef> Name </th>
-            <td mat-cell *matCellDef="let service"> {{service.name}} </td>
+            <td mat-cell *matCellDef="let service"> {{service.serviceName}} </td>
           </ng-container>
 
           <ng-container matColumnDef="price">
@@ -95,40 +109,44 @@
             </td>
           </ng-container>
 
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
       </div>
-      <mat-card class="gst">
-        <div>
+      <div class="utility m-1">
+        <div class="gst">
           <span>Total</span>
+          <span class="float-sm-right">{{totalAmount}}</span>
         </div>
-      </mat-card>
-      <mat-card class="discount">
-        <div style="display: inline-flex">
+        <mat-divider></mat-divider>
+        <div class="discount">
           <span>Discount</span>
-          <span style="right: 5px; position: absolute">
-            <input matInput style="width: 70px; border-bottom: 1px solid;">%
+          <span class="float-sm-right">
+            <input type="text" class="form-control form-control-sm" style="width: 70px;" (blur)="applyDiscount()" [(ngModel)]="discount"
+              placeholder="%">
           </span>
         </div>
-        <div>Membership Verification</div>
-      </mat-card>
-      <mat-card class="sms">
-        <span>Payable Amount</span>
-        <div>
-          <span>Send SMS to Customer</span>
-          <span style="right: 10px; position: absolute">
-            <mat-checkbox></mat-checkbox>
-          </span>
+        <span class="p-2">Membership Verification</span>
+        <mat-divider></mat-divider>
+        <div class="sms">
+          <span>Payable Amount</span>
+          <span class="float-sm-right">{{payAmount}}</span>
+          <div>
+            <span>Send SMS to Customer</span>
+            <span style="right: 10px; position: absolute">
+              <mat-checkbox></mat-checkbox>
+            </span>
+          </div>
         </div>
-      </mat-card>
-      <mat-card class="actions">
-        <button mat-button color="primary" >
-          Generate Bill
-        </button>
-        <button mat-button color="primary">
-          Book Appointment
-        </button>
-      </mat-card>
-    </mat-card>
+        <mat-divider></mat-divider>
+        <div class="fixed-bottom mb-3">
+          <button mat-raised-button color="primary" class="float-sm-right ">
+            Generate Bill
+          </button>
+          <button mat-raised-button color="primary" class="float-sm-right mr-3">
+            Book Appointment
+          </button>
+        </div>
+      </div>
+    </div>
   </div>

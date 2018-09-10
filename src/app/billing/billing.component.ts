@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
+import { SetupService } from '../services/setup.service';
+import { ServiceTypeDTO, ServiceDTO } from '../model/service.model';
 
 @Component({
   selector: 'app-billing',
@@ -9,30 +11,21 @@ import { MatTableDataSource } from '@angular/material';
 export class BillingComponent implements OnInit {
 
   sources = ['Email', 'Social Media', 'Friends'];
-  selectedServices = [];
+  selectedServices: ServiceDTO[] = [];
   displayedColumns = ['name', 'price', 'action'];
-  serviceData = [{
-    'serviceName': 'Hair Cut',
-    'data': [{ 'id': 5, 'name': 'Basic Haircut - U/V/Straight', 'price': 400, 'time': 30, 'timeType': 'Min', 'gender': 'Male' },
-    { 'id': 1, 'name': 'Basic Haircut - U/V/Straight', 'price': 400, 'time': 30, 'timeType': 'Min', 'gender': 'Male' },
-    { 'id': 2, 'name': 'Basic Haircut - U/V/Straight', 'price': 400, 'time': 30, 'timeType': 'Min', 'gender': 'Male' },
-    { 'id': 3, 'name': 'Basic Haircut - U/V/Straight', 'price': 400, 'time': 30, 'timeType': 'Min', 'gender': 'Male' },
-    { 'id': 4, 'name': 'Basic Haircut - U/V/Straight', 'price': 400, 'time': 30, 'timeType': 'Min', 'gender': 'Male' }
-    ]
-  },
-  {
-    'serviceName': 'Shave',
-    'data': [{ 'id': 5, 'name': 'Basic Haircut - U/V/Straight', 'price': 400, 'time': 30, 'timeType': 'Min', 'gender': 'Male' },
-    { 'id': 1, 'name': 'Basic Haircut - U/V/Straight', 'price': 400, 'time': 30, 'timeType': 'Min', 'gender': 'Male' },
-    { 'id': 2, 'name': 'Basic Haircut - U/V/Straight', 'price': 400, 'time': 30, 'timeType': 'Min', 'gender': 'Male' },
-    { 'id': 3, 'name': 'Basic Haircut - U/V/Straight', 'price': 400, 'time': 30, 'timeType': 'Min', 'gender': 'Male' },
-    { 'id': 4, 'name': 'Basic Haircut - U/V/Straight', 'price': 400, 'time': 30, 'timeType': 'Min', 'gender': 'Male' }
-    ]
-  }];
+  serviceData: ServiceTypeDTO[];
+  orgServiceData: ServiceTypeDTO[];
   dataSource = new MatTableDataSource<any>(this.selectedServices);
-  constructor() { }
+  totalAmount = 0;
+  payAmount = 0;
+  discount = 0;
+  constructor(public setupService: SetupService) { }
 
   ngOnInit() {
+    this.setupService.loadCutomers().subscribe(data => {
+      this.serviceData = data;
+      this.orgServiceData = data;
+    });
   }
 
   addService(serviceType, $event) {
@@ -45,11 +38,40 @@ export class BillingComponent implements OnInit {
       this.selectedServices = this.selectedServices.filter(data => data !== serviceType);
     }
     this.dataSource = new MatTableDataSource<any>(this.selectedServices);
+    this.calculateTotal();
   }
 
 
   removeService(service) {
     this.selectedServices = this.selectedServices.filter(data => data !== service);
     this.dataSource = new MatTableDataSource<any>(this.selectedServices);
+  }
+
+  serviceSelect(serviceType) {
+    if (serviceType === 'All') {
+      this.serviceData = this.orgServiceData;
+    } else {
+      this.serviceData = this.orgServiceData.filter(data => data.serviceType === serviceType);
+    }
+  }
+
+  calculateTotal() {
+    this.selectedServices.forEach(service => {
+      this.totalAmount = this.totalAmount + service.price;
+      this.payAmount = this.totalAmount;
+    });
+    this.applyDiscount();
+  }
+
+  calculatePayAmount() {
+
+  }
+
+  applyDiscount() {
+    if (this.discount) {
+      const disc = (this.totalAmount / 100) * this.discount;
+      this.payAmount = this.totalAmount - disc;
+    }
+
   }
 }

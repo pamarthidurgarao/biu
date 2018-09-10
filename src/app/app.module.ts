@@ -3,6 +3,9 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DatepickerModule } from 'ngx-bootstrap/datepicker';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppNavComponent } from './app-nav/app-nav.component';
@@ -17,6 +20,7 @@ import { CustomerService } from './services/customer.service';
 import { SetupComponent } from './setup/setup.component';
 import { AddSetupDialogComponent } from './setup/setup-dailog.component';
 import { SetupService } from './services/setup.service';
+import { ScheduleComponent } from './schedule/schedule.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,7 +29,8 @@ import { SetupService } from './services/setup.service';
     AddCustomerDialogComponent,
     AddSetupDialogComponent,
     BillingComponent,
-    SetupComponent
+    SetupComponent,
+    ScheduleComponent,
   ],
   imports: [
     BrowserModule,
@@ -35,6 +40,11 @@ import { SetupService } from './services/setup.service';
     MaterialModule,
     ReactiveFormsModule,
     FormsModule,
+    DatepickerModule.forRoot(),
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory
+    }),
   ],
   providers: [CustomerService, SetupService],
   bootstrap: [AppComponent],
