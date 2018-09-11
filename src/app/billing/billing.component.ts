@@ -3,6 +3,9 @@ import { MatTableDataSource } from '@angular/material';
 import { SetupService } from '../services/setup.service';
 import { ServiceTypeDTO, ServiceDTO } from '../model/service.model';
 
+import * as jspdf from 'jspdf';
+import html2canvas from 'html2canvas';
+
 @Component({
   selector: 'app-billing',
   templateUrl: './billing.component.html',
@@ -19,6 +22,14 @@ export class BillingComponent implements OnInit {
   totalAmount = 0;
   payAmount = 0;
   discount = 0;
+  toDay = new Date().toLocaleDateString();
+  invoice = '2018/01/001';
+  orgName = 'Org';
+  iee = 0;
+  customerName = '';
+  address = '';
+  gender = '';
+  phoneNumber = '';
   constructor(public setupService: SetupService) { }
 
   ngOnInit() {
@@ -45,6 +56,7 @@ export class BillingComponent implements OnInit {
   removeService(service) {
     this.selectedServices = this.selectedServices.filter(data => data !== service);
     this.dataSource = new MatTableDataSource<any>(this.selectedServices);
+    this.calculateTotal();
   }
 
   serviceSelect(serviceType) {
@@ -56,6 +68,7 @@ export class BillingComponent implements OnInit {
   }
 
   calculateTotal() {
+    this.totalAmount = 0;
     this.selectedServices.forEach(service => {
       this.totalAmount = this.totalAmount + service.price;
       this.payAmount = this.totalAmount;
@@ -71,7 +84,42 @@ export class BillingComponent implements OnInit {
     if (this.discount) {
       const disc = (this.totalAmount / 100) * this.discount;
       this.payAmount = this.totalAmount - disc;
+    } else {
+      this.payAmount = this.totalAmount;
     }
 
   }
+
+  checkBoxStatus(serviceType) {
+    const service = this.selectedServices.filter(data => data === serviceType);
+    if (service.length > 0) {
+      return true;
+    }
+    return false;
+  }
+
+  generateBill() {
+    const data = document.getElementById('pdfPrint');
+    data.classList.remove('d-none');
+    html2canvas(data).then(canvas => {
+      const data1 = document.getElementById('pdfPrint');
+      data1.classList.add('d-none');
+      const imgWidth = 208;
+      const pageHeight = 495;
+      const imgHeight = canvas.height * imgWidth / canvas.width;
+      const heightLeft = imgHeight;
+
+      const contentDataURL = canvas.toDataURL('image/png');
+
+      const pdf = new jspdf('p', 'mm', 'a4');
+      const position = 0;
+      pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
+      pdf.save(this.customerName + '-bill.pdf');
+    });
+  }
+
+  hideEle() {
+    this.iee = 10;
+  }
+
 }

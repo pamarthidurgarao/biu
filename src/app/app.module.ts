@@ -21,6 +21,7 @@ import { SetupComponent } from './setup/setup.component';
 import { AddSetupDialogComponent } from './setup/setup-dailog.component';
 import { SetupService } from './services/setup.service';
 import { ScheduleComponent } from './schedule/schedule.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,6 +32,7 @@ import { ScheduleComponent } from './schedule/schedule.component';
     BillingComponent,
     SetupComponent,
     ScheduleComponent,
+    DashboardComponent,
   ],
   imports: [
     BrowserModule,

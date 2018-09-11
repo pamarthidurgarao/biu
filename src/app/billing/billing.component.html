@@ -1,4 +1,4 @@
-<div class="content">
+<div class="content" [ngClass]="{'d-none':iee==10}">
   <div class="head">
     <div class="form-row">
       <div class="form-group col-sm-2">
@@ -14,15 +14,15 @@
       </div>
       <div class="form-group col-sm-2">
         <label for="inputPassword4" class="col-form-label-sm">Phone Number</label>
-        <input type="text" class="form-control form-control-sm" id="inputPassword4" placeholder="Enter Phone Number">
+        <input type="text" class="form-control form-control-sm" id="inputPassword4" [(ngModel)]="phoneNumber" placeholder="Enter Phone Number">
       </div>
       <div class="form-group col-sm-2">
         <label for="inputPassword4" class="col-form-label-sm">Customer Name</label>
-        <input type="text" class="form-control form-control-sm" id="inputCustomerName" placeholder="Enter Customer Name">
+        <input type="text" class="form-control form-control-sm" id="inputCustomerName" [(ngModel)]="customerName" placeholder="Enter Customer Name">
       </div>
       <div class="form-group col-sm-1">
         <label for="inputPassword4" class="col-form-label-sm">Gender</label>
-        <select id="inputState" class="form-control form-control-sm">
+        <select id="inputState" class="form-control form-control-sm" [(ngModel)]="gender"> 
           <option selected>Male</option>
           <option>Female</option>
         </select>
@@ -41,7 +41,7 @@
     </div>
   </div>
   <div class="body">
-    <div class="left-body border-right" style="overflow-y: auto">
+    <div class="left-body border-right border-top" style="overflow-y: auto">
       <div class="form-row">
         <div class="form-group col-sm-3">
           <label for="inputEmail4" class="col-form-label-sm">Services</label>
@@ -78,7 +78,8 @@
               <div style="right: 0px; position: absolute">
                 <span>{{serviceType.price}}</span>
                 &nbsp;
-                <mat-checkbox (change)="addService(serviceType,$event)"></mat-checkbox>
+                <mat-checkbox id="{{serviceType.serviceName}}-{{serviceType.id}}" (change)="addService(serviceType,$event)" [disabled]="checkBoxStatus(serviceType)"
+                  [checked]="checkBoxStatus(serviceType)"></mat-checkbox>
               </div>
             </mat-list-item>
           </mat-list>
@@ -88,7 +89,7 @@
 
 
     <div class="right-body border-left">
-      <div class="example-container m-1">
+      <div class="example-container">
         <table mat-table [dataSource]="dataSource">
           <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef> Name </th>
@@ -140,13 +141,77 @@
         </div>
         <mat-divider></mat-divider>
         <div class="fixed-bottom mb-3">
-          <button mat-raised-button color="primary" class="float-sm-right ">
+          <button mat-raised-button color="primary" class="float-sm-right" (click)="generateBill()">
             Generate Bill
           </button>
-          <button mat-raised-button color="primary" class="float-sm-right mr-3">
+          <button mat-raised-button color="primary" class="float-sm-right mr-3" (click)="hideEle()">
             Book Appointment
           </button>
         </div>
       </div>
     </div>
   </div>
+</div>
+<div id="pdfPrint" class="p-2 d-none">
+  <div class="org">
+    <h3>{{orgName}}</h3>
+    <p>{{address}}</p>
+  </div>
+  <hr>
+  <div class="client">
+    <span>Client: {{customerName}}</span>
+    <span class="float-sm-right">Date: {{toDay}}</span>
+    <br>
+    <span>Ph No: {{phoneNumber}}</span>
+    <span class="float-sm-right">Invoice: {{invoice}}</span>
+  </div>
+  <table class="table table-bordered">
+    <tr>
+      <th>S. No</th>
+      <th>Name</th>
+      <th>Price</th>
+    </tr>
+    <tr *ngFor="let select of selectedServices; let i=index">
+      <td>{{i+1}}</td>
+      <td>{{select.serviceName}}
+        <br>{{select.duration}} min</td>
+      <td>{{select.price}}</td>
+    </tr>
+  </table>
+  <table class="table col-6 float-sm-right">
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td colspan="2"></td>
+      <td>Sub Total</td>
+      <td>{{totalAmount}}</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td colspan="2"></td>
+      <td>Discount</td>
+      <td>{{discount}}%</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td colspan="2"></td>
+      <td>Net Total</td>
+      <td>{{payAmount}}</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td colspan="2"></td>
+      <td>
+        <b>Grand Total</b>
+      </td>
+      <td>{{payAmount}}</td>
+    </tr>
+  </table>
+</div>
