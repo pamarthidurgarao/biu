@@ -17,28 +17,28 @@ export class SetupComponent implements OnInit {
   displayedColumns: string[] = ['name', 'price', 'time', 'gender', 'actions'];
 
   ngOnInit() {
-    this.setupService.loadCutomers().subscribe(data => {
-      this.serviceData = data;
+    this.setupService.loadCutomers().subscribe(res => {
+      this.serviceData = res.data;
       debugger
     });
   }
-  addService(event, serviceName, pageType) {
-    this.openDialog('Add', serviceName, undefined, pageType);
+  addService(event, category, pageType) {
+    this.openDialog('Add', category, undefined, pageType);
     event.stopPropagation();
   }
 
-  editService(event, serviceName, service, pageType) {
+  editService(event, category, service, pageType) {
     debugger
-    this.openDialog('Edit', serviceName, service, pageType);
+    this.openDialog('Edit', category, service, pageType);
     event.stopPropagation();
   }
 
-  openDialog(mode, serviceName, service, pageType): void {
+  openDialog(mode, category, service, pageType): void {
     const dialogRef = this.dialog.open(AddSetupDialogComponent, {
       width: '90%',
       panelClass: 'addCustomer',
       backdropClass: 'ssssss',
-      data: { 'mode': mode, 'serviceName': serviceName, 'service': service, 'pageType': pageType }
+      data: { 'mode': mode, 'category': category, 'service': service, 'pageType': pageType }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -47,15 +47,15 @@ export class SetupComponent implements OnInit {
         debugger
         if (result.pageType === 'service') {
           this.serviceData.forEach(element => {
-            if (element.serviceType === result.serviceType) {
-              element.data.push(result.data);
+            if (element.category === result.serviceType) {
+              element.types.push(result.data);
               this.dataSource = this.tableDatasource(this.serviceData);
             }
           });
         } else {
           const newService = new ServiceTypeDTO();
-          newService.serviceType = result.data;
-          newService.data = [];
+          newService.category = result.data;
+          newService.types = [];
           this.serviceData.push(newService);
         }
       }

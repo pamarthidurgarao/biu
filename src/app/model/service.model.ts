@@ -1,14 +1,18 @@
 export class ServiceDTO {
-    serviceType: string;
-    subCategoryName: string;
-    serviceName: string;
-    duration: number;
+    name: string;
+    id: string;
+    time: number;
     price: number;
     gender: string;
 }
 
 export class ServiceTypeDTO {
-    serviceType: string;
-    data: ServiceDTO[];
+    _id: string;
+    category: string;
+    types: ServiceDTO[];
+}
+
+export class ServiceResponse {
+    data: ServiceTypeDTO[];
 }
 

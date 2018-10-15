@@ -3,7 +3,8 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material';
-import { ServiceDTO } from '../model/service.model';
+import { ServiceDTO, ServiceTypeDTO } from '../model/service.model';
+import { SetupService } from '../services/setup.service';
 
 export interface Fruit {
     name: string;
@@ -41,14 +42,13 @@ export class AddSetupDialogComponent implements OnInit {
     tags = [];
     isEdit = false;
     action = 'Add';
-    serviceType = '';
+    category = '';
     pageType: string;
     selectedType: any;
-    subServiceName: string;
 
     constructor(public dialogRef: MatDialogRef<AddSetupDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any,
-        private fb: FormBuilder) {
+        private fb: FormBuilder, private setupService: SetupService) {
         this.pageType = data.pageType;
     }
 
@@ -58,23 +58,23 @@ export class AddSetupDialogComponent implements OnInit {
     }
     createForm() {
         this.serviceForm = this.fb.group({
-            subCategoryName: ['', Validators.required],
-            serviceName: ['', Validators.required],
-            duration: ['', Validators.required],
+            id: [''],
+            name: ['', Validators.required],
+            time: ['', Validators.required],
             priceInclTax: ['', Validators.required],
             gender: ['']
         });
     }
     populateForm() {
-        this.serviceType = this.data.serviceName;
+        this.category = this.data.category;
         this.pageType = this.data.pageType;
         if (this.data.mode === 'Edit') {
             debugger
             this.isEdit = true;
             this.action = 'Edit';
-            this.serviceForm.get('subCategoryName').setValue(this.data.service.subCategoryName);
-            this.serviceForm.get('serviceName').setValue(this.data.service.serviceName);
-            this.serviceForm.get('duration').setValue(this.data.service.duration);
+            this.serviceForm.get('id').setValue(this.data.service.id);
+            this.serviceForm.get('name').setValue(this.data.service.name);
+            this.serviceForm.get('time').setValue(this.data.service.time);
             this.serviceForm.get('priceInclTax').setValue(this.data.service.price);
             this.serviceForm.get('gender').setValue(this.data.service.gender);
         }
@@ -85,9 +85,8 @@ export class AddSetupDialogComponent implements OnInit {
 
     addSubService() {
         this.dialogRef.close({
-            'data': this.subServiceName,
             'mode': this.action,
-            'serviceType': this.selectedType,
+            'category': this.category,
             'pageType': this.pageType
         });
 
@@ -118,13 +117,26 @@ export class AddSetupDialogComponent implements OnInit {
         this.dialogRef.close();
     }
     addService() {
+        debugger
         console.log('s');
         const service = new ServiceDTO();
-        service.subCategoryName = this.serviceForm.get('subCategoryName').value;
-        service.serviceName = this.serviceForm.get('serviceName').value;
+        if (this.data.service && this.data.service.id) {
+            service.id = this.data.service.id;
+        }
+        service.name = this.serviceForm.get('name').value;
         service.price = this.serviceForm.get('priceInclTax').value;
         service.gender = this.serviceForm.get('gender').value;
-        service.duration = this.serviceForm.get('duration').value;
-        this.dialogRef.close({ 'data': service, 'mode': this.action, 'serviceType': this.serviceType, 'pageType': this.pageType });
+        service.time = this.serviceForm.get('time').value;
+
+        const serviceRequest = new ServiceTypeDTO();
+        const types= new Array<ServiceDTO>();
+        serviceRequest.category = this.data.category;
+        types.push(service);
+        serviceRequest.types=types;
+
+        this.setupService.addService(serviceRequest).subscribe(response => {
+
+        });
+        this.dialogRef.close({ 'data': service, 'mode': this.action, 'category': this.category, 'pageType': this.pageType });
     }
 }

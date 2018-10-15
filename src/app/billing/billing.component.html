@@ -47,7 +47,7 @@
           <label for="inputEmail4" class="col-form-label-sm">Services</label>
           <select id="inputState" class="form-control form-control-sm" (change)="serviceSelect($event.target.value)">
             <option selected value="All">All</option>
-            <option *ngFor="let service of orgServiceData" [value]="service.serviceType">{{service.serviceType}}</option>
+            <option *ngFor="let service of orgServiceData" [value]="service.category">{{service.category}}</option>
           </select>
         </div>
         <div class="form-group col-sm-3">
@@ -62,15 +62,15 @@
         <mat-expansion-panel *ngFor="let service of serviceData">
           <mat-expansion-panel-header>
             <mat-panel-title>
-              {{service.serviceType}}
+              {{service.category}}
             </mat-panel-title>
           </mat-expansion-panel-header>
           <mat-list role="list">
-            <mat-list-item role="listitem" *ngFor="let serviceType of service.data">
+            <mat-list-item role="listitem" *ngFor="let serviceType of service.types">
               <div>
-                <span class="itemHead">{{serviceType.serviceName}}</span>
+                <span class="itemHead">{{serviceType.name}}</span>
                 <div style="color: darkgray">
-                  <span class="timeDesc">{{serviceType.duration}} Min</span>
+                  <span class="timeDesc">{{serviceType.time}} Min</span>
                   <span>&nbsp;|&nbsp;</span>
                   <span>{{serviceType.gender}}</span>
                 </div>
@@ -78,7 +78,7 @@
               <div style="right: 0px; position: absolute">
                 <span>{{serviceType.price}}</span>
                 &nbsp;
-                <mat-checkbox id="{{serviceType.serviceName}}-{{serviceType.id}}" (change)="addService(serviceType,$event)" [disabled]="checkBoxStatus(serviceType)"
+                <mat-checkbox id="{{serviceType.name}}-{{serviceType.id}}" (change)="addService(serviceType,$event)" [disabled]="checkBoxStatus(serviceType)"
                   [checked]="checkBoxStatus(serviceType)"></mat-checkbox>
               </div>
             </mat-list-item>
@@ -93,7 +93,7 @@
         <table mat-table [dataSource]="dataSource">
           <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef> Name </th>
-            <td mat-cell *matCellDef="let service"> {{service.serviceName}} </td>
+            <td mat-cell *matCellDef="let service"> {{service.name}} </td>
           </ng-container>
 
           <ng-container matColumnDef="price">

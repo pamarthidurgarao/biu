@@ -5,16 +5,10 @@
     <div class="body" *ngIf="pageType === 'service'">
         <form class="example-container" [formGroup]="serviceForm">
             <mat-form-field>
-                <mat-select placeholder="Sub Category Name" formControlName="subCategoryName">
-                    <mat-option value="male">Male</mat-option>
-                    <mat-option value="female">Female</mat-option>
-                </mat-select>
+                <input matInput placeholder="Service Name" formControlName="name">
             </mat-form-field>
             <mat-form-field>
-                <input matInput placeholder="Service Name" formControlName="serviceName">
-            </mat-form-field>
-            <mat-form-field>
-                <input matInput placeholder="Duration(in Min)" formControlName="duration" type="number">
+                <input matInput placeholder="Duration(in Min)" formControlName="time" type="number">
             </mat-form-field>
             <mat-form-field>
                 <input matInput placeholder="Price Incl Tax(0%)" formControlName="priceInclTax" type="number">

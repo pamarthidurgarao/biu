@@ -33,9 +33,10 @@ export class BillingComponent implements OnInit {
   constructor(public setupService: SetupService) { }
 
   ngOnInit() {
-    this.setupService.loadCutomers().subscribe(data => {
-      this.serviceData = data;
-      this.orgServiceData = data;
+    this.setupService.loadCutomers().subscribe(res => {
+      debugger
+      this.serviceData = res.data;
+      this.orgServiceData = res.data;
     });
   }
 
@@ -63,7 +64,7 @@ export class BillingComponent implements OnInit {
     if (serviceType === 'All') {
       this.serviceData = this.orgServiceData;
     } else {
-      this.serviceData = this.orgServiceData.filter(data => data.serviceType === serviceType);
+      this.serviceData = this.orgServiceData.filter(data => data.category === serviceType);
     }
   }
 
