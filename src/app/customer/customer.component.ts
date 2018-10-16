@@ -15,7 +15,7 @@ import { CustomerDTO } from '../model/customer.model';
 })
 export class CustomerComponent implements OnInit {
 
-  displayedColumns: string[] = ['customerName', 'phoneNo', 'email', 'dob', 'anniversary', 'gender', 'tags', 'notes', 'actions'];
+  displayedColumns: string[] = ['fullname', 'phone', 'email', 'dob', 'gender', 'actions'];
   data: CustomerDTO[] = [];
   resultsLength = 0;
   dataSource: MatTableDataSource<CustomerDTO>;
@@ -39,21 +39,31 @@ export class CustomerComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed' + result);
       if (result !== undefined) {
-        this.data.push(result);
-        this.dataSource = new MatTableDataSource(this.data);
+        this.loadCustomers();
       }
     });
   }
 
   ngOnInit() {
-    this.customerService.loadCutomers().subscribe(data => {
-      this.data = data;
+    this.loadCustomers();
+  }
+
+  loadCustomers() {
+    this.customerService.loadCutomers().subscribe(res => {
+      this.data = res.data;
       this.dataSource = new MatTableDataSource(this.data);
     });
   }
-  editCustomer(row) {
+  
+  editCustomer(row: CustomerDTO) {
     this.customer = row;
     this.openDialog(true);
+  }
+
+  deleteCustomer(row: CustomerDTO) {
+    this.customerService.deleteCutomer(row._id).subscribe(res => {
+      console.log('deleted');
+    });
   }
 }
 

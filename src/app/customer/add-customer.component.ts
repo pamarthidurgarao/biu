@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material';
 import { CustomerDTO } from '../model/customer.model';
+import { CustomerService } from '../services/customer.service';
 
 export interface Fruit {
     name: string;
@@ -40,7 +41,7 @@ export class AddCustomerDialogComponent implements OnInit {
     action = 'Add';
     constructor(public dialogRef: MatDialogRef<AddCustomerDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: CustomerDTO,
-        private fb: FormBuilder) { }
+        private fb: FormBuilder, private customerService: CustomerService) { }
 
     ngOnInit() {
         this.createForm();
@@ -48,14 +49,11 @@ export class AddCustomerDialogComponent implements OnInit {
     }
     createForm() {
         this.customerForm = this.fb.group({
-            customerName: ['', Validators.required],
-            phoneNo: ['', Validators.required],
+            fullname: ['', Validators.required],
+            phone: ['', Validators.required],
             email: ['', Validators.required],
             dob: ['', Validators.required],
-            anniversary: ['', Validators.required],
             gender: ['', Validators.required],
-            tags: [''],
-            notes: ['']
         });
     }
     populateForm() {
@@ -63,14 +61,11 @@ export class AddCustomerDialogComponent implements OnInit {
             this.isEdit = true;
             this.action = 'Edit';
             const customer = this.data;
-            this.customerForm.get('customerName').setValue(customer.customerName);
-            this.customerForm.get('anniversary').setValue(customer.anniversary);
+            this.customerForm.get('fullname').setValue(customer.fullname);
             this.customerForm.get('dob').setValue(customer.dob);
             this.customerForm.get('email').setValue(customer.email);
             this.customerForm.get('gender').setValue(customer.gender);
-            this.customerForm.get('notes').setValue(customer.notes);
-            this.customerForm.get('phoneNo').setValue(customer.phoneNo);
-            this.customerForm.get('tags').setValue(customer.tags);
+            this.customerForm.get('phone').setValue(customer.phone);
         }
     }
     onNoClick(): void {
@@ -105,13 +100,17 @@ export class AddCustomerDialogComponent implements OnInit {
     addCustomer() {
         console.log('s');
         const customer = new CustomerDTO();
-        customer.customerName = this.customerForm.get('customerName').value;
-        customer.anniversary = this.customerForm.get('anniversary').value;
+        if (this.data && this.data._id) {
+            customer._id = this.data._id;
+        }
+        customer.fullname = this.customerForm.get('fullname').value;
         customer.dob = this.customerForm.get('dob').value;
         customer.email = this.customerForm.get('email').value;
         customer.gender = this.customerForm.get('gender').value;
-        customer.tags = this.tags;
-        customer.phoneNo = this.customerForm.get('phoneNo').value;
+        customer.phone = this.customerForm.get('phone').value;
+        this.customerService.addCutomer(customer).subscribe(data => {
+            debugger
+        });
         this.dialogRef.close(customer);
     }
 }

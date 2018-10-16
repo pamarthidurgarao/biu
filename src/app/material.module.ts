@@ -17,8 +17,11 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatExpansionModule } from '@angular/material/expansion';
-import {MatRadioModule} from '@angular/material/radio';
+import { MatRadioModule } from '@angular/material/radio';
 import { HttpClientModule } from '@angular/common/http';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatStepperModule } from '@angular/material/stepper';
 @NgModule({
     imports: [
         LayoutModule,
@@ -43,6 +46,9 @@ import { HttpClientModule } from '@angular/common/http';
         MatGridListModule,
         MatExpansionModule,
         MatRadioModule,
+        MatAutocompleteModule,
+        MatTabsModule,
+        MatStepperModule,
     ],
     exports: [
         LayoutModule,
@@ -67,6 +73,9 @@ import { HttpClientModule } from '@angular/common/http';
         MatGridListModule,
         MatExpansionModule,
         MatRadioModule,
+        MatAutocompleteModule,
+        MatTabsModule,
+        MatStepperModule,
     ],
 })
 export class MaterialModule { }

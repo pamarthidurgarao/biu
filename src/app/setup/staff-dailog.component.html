@@ -1,0 +1,67 @@
+<div>
+    <div class="head">
+        <span>{{action}} Staff</span>
+    </div>
+    <div class="body">
+
+        <mat-tab-group>
+            <mat-tab label="Profile">
+                <form class="example-container" [formGroup]="serviceForm">
+                    <mat-form-field>
+                        <input matInput placeholder="Name" formControlName="name">
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-select placeholder="Gender" formControlName="gender">
+                            <mat-option value="Male">Male</mat-option>
+                            <mat-option value="Female">Female</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input matInput placeholder="Mobile" formControlName="phone" type="text">
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input matInput placeholder="Position" formControlName="position" type="text">
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-select placeholder="Work for" formControlName="workFor">
+                            <mat-option value="Male">Male</mat-option>
+                            <mat-option value="Female">Female</mat-option>
+                            <mat-option value="Any">Any</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-card>
+                        <mat-card-content>
+                            <h4 class="example-h2">Preference Configuration</h4>
+                            <section class="example-section">
+                                <mat-checkbox class="example-margin">All</mat-checkbox>
+                                <mat-checkbox class="example-margin" *ngFor="let service of services">{{service.category}}</mat-checkbox>
+                            </section>
+                        </mat-card-content>
+                    </mat-card>
+
+                </form>
+            </mat-tab>
+            <mat-tab label="Timings">
+                <mat-list>
+                    <mat-list-item *ngFor="let day of days" class="row">
+                        <div class="col-2">
+                            <mat-checkbox>{{day}}</mat-checkbox>
+                        </div>
+                        <div class="col-2">
+                            <input type="time"> &nbsp;
+                            <input type="time">
+                        </div>
+                        <!-- <ngx-material-timepicker #picker (disabled)="true"></ngx-material-timepicker> -->
+                    </mat-list-item>
+                </mat-list>
+            </mat-tab>
+        </mat-tab-group>
+
+    </div>
+    <div class="foot">
+        <div class="button-row">
+            <button mat-raised-button color="primary" (click)="addSubService()">Save</button>
+            <button mat-raised-button color="primary" (click)="closeDailog()">Close</button>
+        </div>
+    </div>
+</div>

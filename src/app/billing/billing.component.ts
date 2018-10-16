@@ -5,6 +5,9 @@ import { ServiceTypeDTO, ServiceDTO } from '../model/service.model';
 
 import * as jspdf from 'jspdf';
 import html2canvas from 'html2canvas';
+import { CustomerService } from '../services/customer.service';
+import { CustomerDTO } from '../model/customer.model';
+import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-billing',
@@ -14,8 +17,9 @@ import html2canvas from 'html2canvas';
 export class BillingComponent implements OnInit {
 
   sources = ['Email', 'Social Media', 'Friends'];
+  customerForm: FormGroup;
   selectedServices: ServiceDTO[] = [];
-  displayedColumns = ['name', 'price', 'action'];
+  displayedColumns = ['name', 'provider', 'price', 'discount', 'netPrice', 'action'];
   serviceData: ServiceTypeDTO[];
   orgServiceData: ServiceTypeDTO[];
   dataSource = new MatTableDataSource<any>(this.selectedServices);
@@ -30,18 +34,41 @@ export class BillingComponent implements OnInit {
   address = '';
   gender = '';
   phoneNumber = '';
-  constructor(public setupService: SetupService) { }
+  customers: CustomerDTO[] = [];
+  mobile: FormControl = new FormControl();
+
+  constructor(public setupService: SetupService, private customerService: CustomerService, private fb: FormBuilder) { }
 
   ngOnInit() {
-    this.setupService.loadCutomers().subscribe(res => {
-      debugger
+    this.createForm();
+    this.setupService.getAllService().subscribe(res => {
       this.serviceData = res.data;
       this.orgServiceData = res.data;
     });
+    this.searchCustomers();
+  }
+
+  createForm() {
+    this.customerForm = this.fb.group({
+      origin: [''],
+      fullname: ['', Validators.required],
+      gender: ['', Validators.required],
+      dob: ['', Validators.required],
+      mobile: ['', Validators.required]
+    });
+  }
+
+  searchCustomers() {
+    this.customerForm.get('mobile').valueChanges.subscribe(q => {
+      this.customerService.searchByMobile(q)
+        .subscribe(result => {
+          this.customers = result.data;
+        });
+    });
+
   }
 
   addService(serviceType, $event) {
-    debugger
     if ($event.checked) {
       console.log(serviceType);
       this.selectedServices.push(serviceType);
@@ -121,6 +148,17 @@ export class BillingComponent implements OnInit {
 
   hideEle() {
     this.iee = 10;
+  }
+
+  autoSelect(res) {
+    this.customers.filter(customer => {
+      if (customer.phone === res) {
+        this.customerForm.get('fullname').setValue(customer.fullname);
+        this.customerForm.get('dob').setValue(customer.dob);
+        this.customerForm.get('gender').setValue(customer.gender);
+        return;
+      }
+    });
   }
 
 }

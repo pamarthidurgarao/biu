@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DatepickerModule } from 'ngx-bootstrap/datepicker';
+import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
@@ -19,6 +20,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CustomerService } from './services/customer.service';
 import { SetupComponent } from './setup/setup.component';
 import { AddSetupDialogComponent } from './setup/setup-dailog.component';
+import { StaffSetupDialogComponent } from './setup/staff-dailog.component';
 import { SetupService } from './services/setup.service';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -33,6 +35,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     SetupComponent,
     ScheduleComponent,
     DashboardComponent,
+    StaffSetupDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -43,6 +46,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     ReactiveFormsModule,
     FormsModule,
     DatepickerModule.forRoot(),
+    NgxMaterialTimepickerModule.forRoot(),
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory
@@ -50,6 +54,6 @@ import { DashboardComponent } from './dashboard/dashboard.component';
   ],
   providers: [CustomerService, SetupService],
   bootstrap: [AppComponent],
-  entryComponents: [AddCustomerDialogComponent, AddSetupDialogComponent]
+  entryComponents: [AddCustomerDialogComponent, AddSetupDialogComponent, StaffSetupDialogComponent]
 })
 export class AppModule { }

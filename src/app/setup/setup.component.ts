@@ -3,6 +3,7 @@ import { MatTableDataSource, MatDialog } from '@angular/material';
 import { AddSetupDialogComponent } from './setup-dailog.component';
 import { ServiceTypeDTO, ServiceDTO } from '../model/service.model';
 import { SetupService } from '../services/setup.service';
+import { StaffSetupDialogComponent } from './staff-dailog.component';
 
 @Component({
   selector: 'app-setup',
@@ -17,9 +18,8 @@ export class SetupComponent implements OnInit {
   displayedColumns: string[] = ['name', 'price', 'time', 'gender', 'actions'];
 
   ngOnInit() {
-    this.setupService.loadCutomers().subscribe(res => {
+    this.setupService.getAllService().subscribe(res => {
       this.serviceData = res.data;
-      debugger
     });
   }
   addService(event, category, pageType) {
@@ -28,7 +28,6 @@ export class SetupComponent implements OnInit {
   }
 
   editService(event, category, service, pageType) {
-    debugger
     this.openDialog('Edit', category, service, pageType);
     event.stopPropagation();
   }
@@ -44,7 +43,6 @@ export class SetupComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed' + result);
       if (result !== undefined) {
-        debugger
         if (result.pageType === 'service') {
           this.serviceData.forEach(element => {
             if (element.category === result.serviceType) {
@@ -61,6 +59,27 @@ export class SetupComponent implements OnInit {
       }
     });
   }
+
+
+  // Staff realted code changes
+  openStaffDialog(mode, staff): void {
+    const staffDialogRef = this.dialog.open(StaffSetupDialogComponent, {
+      width: '90%',
+      height: '500px',
+      panelClass: 'addStaff',
+      data: { 'mode': mode, 'staff': staff }
+    });
+
+    staffDialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed' + result);
+
+    });
+  }
+  addStaff($event, mode, data) {
+    this.openStaffDialog(mode, data);
+  }
+
+
   tableDatasource(serviceData) {
     this.dataSource = new MatTableDataSource<ServiceTypeDTO>(serviceData);
     return this.dataSource;

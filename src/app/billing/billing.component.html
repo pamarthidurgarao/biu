@@ -1,217 +1,246 @@
 <div class="content" [ngClass]="{'d-none':iee==10}">
-  <div class="head">
-    <div class="form-row">
-      <div class="form-group col-sm-2">
-        <label for="inputEmail4" class="col-form-label-sm">Source</label>
-        <select id="inputState" class="form-control form-control-sm">
-          <option selected>JustDial/Classifieds</option>
-          <option>Nearbuy</option>
-          <option>Little</option>
-          <option>SMS Campaign</option>
-          <option>Email Campaign</option>
-          <option>Call Campaign</option>
-        </select>
-      </div>
-      <div class="form-group col-sm-2">
-        <label for="inputPassword4" class="col-form-label-sm">Phone Number</label>
-        <input type="text" class="form-control form-control-sm" id="inputPassword4" [(ngModel)]="phoneNumber" placeholder="Enter Phone Number">
-      </div>
-      <div class="form-group col-sm-2">
-        <label for="inputPassword4" class="col-form-label-sm">Customer Name</label>
-        <input type="text" class="form-control form-control-sm" id="inputCustomerName" [(ngModel)]="customerName" placeholder="Enter Customer Name">
-      </div>
-      <div class="form-group col-sm-1">
-        <label for="inputPassword4" class="col-form-label-sm">Gender</label>
-        <select id="inputState" class="form-control form-control-sm" [(ngModel)]="gender"> 
-          <option selected>Male</option>
-          <option>Female</option>
-        </select>
-      </div>
-
-      <div class="form-group col-sm-2">
-        <label for="inputPassword4" class="col-form-label-sm">Date</label>
-        <div class="input-group">
-          <input class="form-control form-control-sm" [matDatepicker]="picker" placeholder="Select Date">
-          <mat-datepicker #picker></mat-datepicker>
-          <div class="input-group-text form-control-sm" color="primary">
-            <mat-icon (click)="picker.open()">date_range</mat-icon>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="body">
-    <div class="left-body border-right border-top" style="overflow-y: auto">
-      <div class="form-row">
-        <div class="form-group col-sm-3">
-          <label for="inputEmail4" class="col-form-label-sm">Services</label>
-          <select id="inputState" class="form-control form-control-sm" (change)="serviceSelect($event.target.value)">
-            <option selected value="All">All</option>
-            <option *ngFor="let service of orgServiceData" [value]="service.category">{{service.category}}</option>
-          </select>
-        </div>
-        <div class="form-group col-sm-3">
-          <label for="inputEmail4" class="col-form-label-sm">Products</label>
-          <select id="inputState" class="form-control form-control-sm">
-            <option selected value="all">All</option>
-            <option>...</option>
-          </select>
-        </div>
-      </div>
-      <mat-accordion>
-        <mat-expansion-panel *ngFor="let service of serviceData">
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              {{service.category}}
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <mat-list role="list">
-            <mat-list-item role="listitem" *ngFor="let serviceType of service.types">
-              <div>
-                <span class="itemHead">{{serviceType.name}}</span>
-                <div style="color: darkgray">
-                  <span class="timeDesc">{{serviceType.time}} Min</span>
-                  <span>&nbsp;|&nbsp;</span>
-                  <span>{{serviceType.gender}}</span>
+    <div class="head">
+        <form [formGroup]="customerForm">
+            <div class="form-row">
+                <div class="form-group col-sm-2">
+                    <label for="inputEmail4" class="col-form-label-sm">Origin</label>
+                    <select id="inputState" class="form-control form-control-sm">
+                        <option selected>Walk-In</option>
+                        <option>Facebook</option>
+                        <option>Instagram</option>
+                        <option>Pamphlet/Advertisement</option>
+                        <option>SMS Promotion</option>
+                        <option>Call Promotion</option>
+                        <option>Little App</option>
+                        <option>Just Dial</option>
+                        <option>Friend Referral</option>
+                    </select>
                 </div>
-              </div>
-              <div style="right: 0px; position: absolute">
-                <span>{{serviceType.price}}</span>
-                &nbsp;
-                <mat-checkbox id="{{serviceType.name}}-{{serviceType.id}}" (change)="addService(serviceType,$event)" [disabled]="checkBoxStatus(serviceType)"
-                  [checked]="checkBoxStatus(serviceType)"></mat-checkbox>
-              </div>
-            </mat-list-item>
-          </mat-list>
-        </mat-expansion-panel>
-      </mat-accordion>
+                <div class="form-group col-sm-2">
+                    <label for="inputPassword4" class="col-form-label-sm">Mobile Number</label>
+                    <input type="text" class="form-control form-control-sm" [matAutocomplete]="auto" id="inputPassword4" formControlName="mobile"
+                        placeholder="Enter Mobile Number" autocomplete="off">
+                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="autoSelect($event.option.value)">
+                        <mat-option *ngFor="let customer of customers" [value]="customer.phone">
+                            {{ customer.phone }}
+                        </mat-option>
+                    </mat-autocomplete>
+                </div>
+                <div class="form-group col-sm-2">
+                    <label for="inputPassword4" class="col-form-label-sm">Customer Name</label>
+                    <input type="text" class="form-control form-control-sm" id="inputCustomerName" formControlName="fullname" placeholder="Enter Customer Name">
+                </div>
+                <div class="form-group col-sm-1">
+                    <label for="inputPassword4" class="col-form-label-sm">Gender</label>
+                    <select id="inputState" class="form-control form-control-sm" formControlName="gender">
+                        <option selected>Male</option>
+                        <option>Female</option>
+                    </select>
+                </div>
+
+                <div class="form-group col-sm-2">
+                    <label for="inputPassword4" class="col-form-label-sm">Date</label>
+                    <div class="input-group">
+                        <input class="form-control form-control-sm" [matDatepicker]="picker" placeholder="Select Date" formControlName="dob">
+                        <mat-datepicker #picker></mat-datepicker>
+                        <div class="input-group-text form-control-sm" color="primary">
+                            <mat-icon (click)="picker.open()">date_range</mat-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
 
-
-    <div class="right-body border-left">
-      <div class="example-container">
-        <table mat-table [dataSource]="dataSource">
-          <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef> Name </th>
-            <td mat-cell *matCellDef="let service"> {{service.name}} </td>
-          </ng-container>
-
-          <ng-container matColumnDef="price">
-            <th mat-header-cell *matHeaderCellDef> Price </th>
-            <td mat-cell *matCellDef="let service"> {{service.price }} </td>
-          </ng-container>
-
-          <ng-container matColumnDef="action">
-            <th mat-header-cell *matHeaderCellDef> Action </th>
-            <td mat-cell *matCellDef="let service">
-              <button mat-icon-button color="primary" (click)="removeService(service)">
-                <mat-icon>close</mat-icon>
-              </button>
-            </td>
-          </ng-container>
-
-          <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </table>
-      </div>
-      <div class="utility m-1">
-        <div class="gst">
-          <span>Total</span>
-          <span class="float-sm-right">{{totalAmount}}</span>
+    <div class="body">
+        <div class="left-body border-right border-top" style="overflow-y: auto">
+            <div class="form-row">
+                <div class="form-group col-sm-3">
+                    <label for="inputEmail4" class="col-form-label-sm">Services</label>
+                    <select id="inputState" class="form-control form-control-sm" (change)="serviceSelect($event.target.value)">
+                        <option selected value="All">All</option>
+                        <option *ngFor="let service of orgServiceData" [value]="service.category">{{service.category}}</option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-3">
+                    <label for="inputEmail4" class="col-form-label-sm">Products</label>
+                    <select id="inputState" class="form-control form-control-sm">
+                        <option selected value="all">All</option>
+                        <option>...</option>
+                    </select>
+                </div>
+            </div>
+            <mat-accordion>
+                <mat-expansion-panel *ngFor="let service of serviceData">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            {{service.category}}
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <mat-list role="list">
+                        <mat-list-item role="listitem" *ngFor="let serviceType of service.types">
+                            <div>
+                                <span class="itemHead">{{serviceType.name}}</span>
+                                <div style="color: darkgray">
+                                    <span class="timeDesc">{{serviceType.time}} Min</span>
+                                    <span>&nbsp;|&nbsp;</span>
+                                    <span>{{serviceType.gender}}</span>
+                                </div>
+                            </div>
+                            <div style="right: 0px; position: absolute">
+                                <span>{{serviceType.price}}</span>
+                                &nbsp;
+                                <mat-checkbox id="{{serviceType.name}}-{{serviceType.id}}" (change)="addService(serviceType,$event)" [disabled]="checkBoxStatus(serviceType)"
+                                    [checked]="checkBoxStatus(serviceType)"></mat-checkbox>
+                            </div>
+                        </mat-list-item>
+                    </mat-list>
+                </mat-expansion-panel>
+            </mat-accordion>
         </div>
-        <mat-divider></mat-divider>
-        <div class="discount">
-          <span>Discount</span>
-          <span class="float-sm-right">
-            <input type="text" class="form-control form-control-sm" style="width: 70px;" (blur)="applyDiscount()" [(ngModel)]="discount"
-              placeholder="%">
-          </span>
+
+
+        <div class="right-body border-left">
+            <div class="example-container">
+                <table mat-table [dataSource]="dataSource">
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef> Service/Product Name </th>
+                        <td mat-cell *matCellDef="let service"> {{service.name}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="provider">
+                        <th mat-header-cell *matHeaderCellDef> Service Provider </th>
+                        <td mat-cell *matCellDef="let service">
+                            <select id="inputState" class="form-control form-control-sm">
+                                <option selected>Male</option>
+                                <option>Female</option>
+                            </select>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="price">
+                        <th mat-header-cell *matHeaderCellDef> Price </th>
+                        <td mat-cell *matCellDef="let service"> {{service.price }} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="discount">
+                        <th mat-header-cell *matHeaderCellDef> Discount </th>
+                        <td mat-cell *matCellDef="let service">
+                            <input type="text" class="form-control form-control-sm" id="inputPassword4" placeholder="Discount">
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="netPrice">
+                        <th mat-header-cell *matHeaderCellDef> Net Price </th>
+                        <td mat-cell *matCellDef="let service"> {{service.price }} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="action">
+                        <th mat-header-cell *matHeaderCellDef> Action </th>
+                        <td mat-cell *matCellDef="let service">
+                            <button mat-icon-button color="primary" (click)="removeService(service)">
+                                <mat-icon>close</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+            </div>
+            <div class="utility m-1">
+                <div class="gst">
+                    <span>Total</span>
+                    <span class="float-sm-right">{{totalAmount}}</span>
+                </div>
+                <mat-divider></mat-divider>
+                <div class="discount">
+                    <span>Discount</span>
+                    <span class="float-sm-right">
+                        <input type="text" class="form-control form-control-sm" style="width: 70px;" (blur)="applyDiscount()" [(ngModel)]="discount"
+                            placeholder="%">
+                    </span>
+                </div>
+                <span class="p-2">Membership Verification</span>
+                <mat-divider></mat-divider>
+                <div class="sms">
+                    <span>Payable Amount</span>
+                    <span class="float-sm-right">{{payAmount}}</span>
+                    <div>
+                        <span>Send SMS to Customer</span>
+                        <span style="right: 10px; position: absolute">
+                            <mat-checkbox></mat-checkbox>
+                        </span>
+                    </div>
+                </div>
+                <mat-divider></mat-divider>
+                <div class="fixed-bottom mb-3">
+                    <button mat-raised-button color="primary" class="float-sm-right" (click)="generateBill()">
+                        Generate Bill
+                    </button>
+                    <button mat-raised-button color="primary" class="float-sm-right mr-3" (click)="hideEle()">
+                        Book Appointment
+                    </button>
+                </div>
+            </div>
         </div>
-        <span class="p-2">Membership Verification</span>
-        <mat-divider></mat-divider>
-        <div class="sms">
-          <span>Payable Amount</span>
-          <span class="float-sm-right">{{payAmount}}</span>
-          <div>
-            <span>Send SMS to Customer</span>
-            <span style="right: 10px; position: absolute">
-              <mat-checkbox></mat-checkbox>
-            </span>
-          </div>
-        </div>
-        <mat-divider></mat-divider>
-        <div class="fixed-bottom mb-3">
-          <button mat-raised-button color="primary" class="float-sm-right" (click)="generateBill()">
-            Generate Bill
-          </button>
-          <button mat-raised-button color="primary" class="float-sm-right mr-3" (click)="hideEle()">
-            Book Appointment
-          </button>
-        </div>
-      </div>
     </div>
-  </div>
 </div>
 <div id="pdfPrint" class="p-2 d-none">
-  <div class="org">
-    <h3>{{orgName}}</h3>
-    <p>{{address}}</p>
-  </div>
-  <hr>
-  <div class="client">
-    <span>Client: {{customerName}}</span>
-    <span class="float-sm-right">Date: {{toDay}}</span>
-    <br>
-    <span>Ph No: {{phoneNumber}}</span>
-    <span class="float-sm-right">Invoice: {{invoice}}</span>
-  </div>
-  <table class="table table-bordered">
-    <tr>
-      <th>S. No</th>
-      <th>Name</th>
-      <th>Price</th>
-    </tr>
-    <tr *ngFor="let select of selectedServices; let i=index">
-      <td>{{i+1}}</td>
-      <td>{{select.serviceName}}
-        <br>{{select.duration}} min</td>
-      <td>{{select.price}}</td>
-    </tr>
-  </table>
-  <table class="table col-6 float-sm-right">
-    <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td colspan="2"></td>
-      <td>Sub Total</td>
-      <td>{{totalAmount}}</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td colspan="2"></td>
-      <td>Discount</td>
-      <td>{{discount}}%</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td colspan="2"></td>
-      <td>Net Total</td>
-      <td>{{payAmount}}</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td colspan="2"></td>
-      <td>
-        <b>Grand Total</b>
-      </td>
-      <td>{{payAmount}}</td>
-    </tr>
-  </table>
+    <div class="org">
+        <h3>{{orgName}}</h3>
+        <p>{{address}}</p>
+    </div>
+    <hr>
+    <div class="client">
+        <span>Client: {{customerName}}</span>
+        <span class="float-sm-right">Date: {{toDay}}</span>
+        <br>
+        <span>Ph No: {{phoneNumber}}</span>
+        <span class="float-sm-right">Invoice: {{invoice}}</span>
+    </div>
+    <table class="table table-bordered">
+        <tr>
+            <th>S. No</th>
+            <th>Name</th>
+            <th>Price</th>
+        </tr>
+        <tr *ngFor="let select of selectedServices; let i=index">
+            <td>{{i+1}}</td>
+            <td>{{select.serviceName}}
+                <br>{{select.duration}} min</td>
+            <td>{{select.price}}</td>
+        </tr>
+    </table>
+    <table class="table col-6 float-sm-right">
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td colspan="2"></td>
+            <td>Sub Total</td>
+            <td>{{totalAmount}}</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td colspan="2"></td>
+            <td>Discount</td>
+            <td>{{discount}}%</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td colspan="2"></td>
+            <td>Net Total</td>
+            <td>{{payAmount}}</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td colspan="2"></td>
+            <td>
+                <b>Grand Total</b>
+            </td>
+            <td>{{payAmount}}</td>
+        </tr>
+    </table>
 </div>

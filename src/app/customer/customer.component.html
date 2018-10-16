@@ -15,14 +15,14 @@
 
       <table mat-table [dataSource]="dataSource">
 
-        <ng-container matColumnDef="customerName" sticky>
+        <ng-container matColumnDef="fullname" sticky>
           <th mat-header-cell *matHeaderCellDef>Customer Name</th>
-          <td mat-cell *matCellDef="let row">{{row.customerName}}</td>
+          <td mat-cell *matCellDef="let row">{{row.fullname}}</td>
         </ng-container>
 
-        <ng-container matColumnDef="phoneNo">
+        <ng-container matColumnDef="phone">
           <th mat-header-cell *matHeaderCellDef>Phone No</th>
-          <td mat-cell *matCellDef="let row">{{row.phoneNo}}</td>
+          <td mat-cell *matCellDef="let row">{{row.phone}}</td>
         </ng-container>
 
         <ng-container matColumnDef="email">
@@ -35,32 +35,19 @@
           <td mat-cell *matCellDef="let row">{{row.dob | date}}</td>
         </ng-container>
 
-        <ng-container matColumnDef="anniversary">
-          <th mat-header-cell *matHeaderCellDef>Anniversary</th>
-          <td mat-cell *matCellDef="let row">{{row.anniversary | date}}</td>
-        </ng-container>
-
         <ng-container matColumnDef="gender">
           <th mat-header-cell *matHeaderCellDef>Gender</th>
           <td mat-cell *matCellDef="let row">{{row.gender}}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="tags">
-          <th mat-header-cell *matHeaderCellDef>Tags</th>
-          <td mat-cell *matCellDef="let row">{{row.tags}}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="notes">
-          <th mat-header-cell *matHeaderCellDef>Notes</th>
-          <td mat-cell *matCellDef="let row">{{row.notes}}</td>
-        </ng-container>
-
+        </ng-container> 
 
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef>Actions</th>
           <td mat-cell *matCellDef="let row">
             <button mat-icon-button color="primary" (click)="editCustomer(row)">
               <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="error" (click)="deleteCustomer(row)">
+              <mat-icon>delete</mat-icon>
             </button>
           </td>
         </ng-container>
