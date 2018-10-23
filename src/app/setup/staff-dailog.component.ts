@@ -47,6 +47,7 @@ export class StaffSetupDialogComponent implements OnInit {
     pageType: string;
     selectedType: any;
     services: ServiceTypeDTO[];
+    controls: any[] = [];
     prefrencesCtrl: any;
     days: any[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     constructor(public dialogRef: MatDialogRef<StaffSetupDialogComponent>,
@@ -96,6 +97,7 @@ export class StaffSetupDialogComponent implements OnInit {
         this.days.forEach(day => {
             const control = <FormArray>this.staffForm.controls['timings'];
             control.push(this.addTiming(day));
+            this.controls = (<FormArray>this.staffForm.get('timings')).controls;
         });
     }
     onNoClick(): void {

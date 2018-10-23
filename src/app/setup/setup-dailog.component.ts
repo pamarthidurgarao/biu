@@ -45,6 +45,7 @@ export class AddSetupDialogComponent implements OnInit {
     category = '';
     pageType: string;
     selectedType: any;
+    serviceType: any;
 
     constructor(public dialogRef: MatDialogRef<AddSetupDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any,
@@ -129,10 +130,10 @@ export class AddSetupDialogComponent implements OnInit {
         service.time = this.serviceForm.get('time').value;
 
         const serviceRequest = new ServiceTypeDTO();
-        const types= new Array<ServiceDTO>();
+        const types = new Array<ServiceDTO>();
         serviceRequest.category = this.data.category;
         types.push(service);
-        serviceRequest.types=types;
+        serviceRequest.types = types;
 
         this.setupService.addService(serviceRequest).subscribe(response => {
 

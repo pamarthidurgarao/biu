@@ -41,7 +41,7 @@
                 </mat-tab>
                 <mat-tab label="Timings">
                     <mat-list>
-                        <mat-list-item formArrayName="timings" *ngFor="let time of staffForm.get('timings').controls; let i=index;">
+                        <mat-list-item formArrayName="timings" *ngFor="let time of controls; let i=index;">
                             <span [formGroupName]="i" class="row w-100">
                                 <div class="col-1">
                                     <mat-checkbox formControlName="status"></mat-checkbox>
