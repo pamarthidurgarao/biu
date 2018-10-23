@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl, FormArray, AbstractControl } from '@angular/forms';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material';
 import { ServiceDTO, ServiceTypeDTO } from '../model/service.model';
@@ -38,7 +38,7 @@ export interface Fruit {
 })
 export class StaffSetupDialogComponent implements OnInit {
 
-    serviceForm: FormGroup;
+    staffForm: FormGroup;
     tags = [];
     isEdit = false;
     action = 'Add';
@@ -46,6 +46,7 @@ export class StaffSetupDialogComponent implements OnInit {
     pageType: string;
     selectedType: any;
     services: ServiceTypeDTO[];
+    prefrencesCtrl: any;
     days: any[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     constructor(public dialogRef: MatDialogRef<StaffSetupDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any,
@@ -65,12 +66,15 @@ export class StaffSetupDialogComponent implements OnInit {
         });
     }
     createForm() {
-        this.serviceForm = this.fb.group({
+        this.staffForm = this.fb.group({
             id: [''],
             name: ['', Validators.required],
-            time: ['', Validators.required],
-            priceInclTax: ['', Validators.required],
-            gender: ['']
+            phone: ['', Validators.required],
+            position: ['', Validators.required],
+            gender: [''],
+            workFor: [''],
+            preferences: this.fb.array([]),
+            timings: this.fb.array([])
         });
     }
     populateForm() {
@@ -79,43 +83,33 @@ export class StaffSetupDialogComponent implements OnInit {
         if (this.data.mode === 'Edit') {
             this.isEdit = true;
             this.action = 'Edit';
-            this.serviceForm.get('id').setValue(this.data.service.id);
-            this.serviceForm.get('name').setValue(this.data.service.name);
-            this.serviceForm.get('time').setValue(this.data.service.time);
-            this.serviceForm.get('priceInclTax').setValue(this.data.service.price);
-            this.serviceForm.get('gender').setValue(this.data.service.gender);
+            this.staffForm.get('id').setValue(this.data.service.id);
+            this.staffForm.get('name').setValue(this.data.service.name);
+            this.staffForm.get('time').setValue(this.data.service.time);
+            this.staffForm.get('priceInclTax').setValue(this.data.service.price);
+            this.staffForm.get('gender').setValue(this.data.service.gender);
         }
     }
     onNoClick(): void {
         this.dialogRef.close();
     }
 
-    addSubService() {
-        this.dialogRef.close({
-            'mode': this.action,
-            'category': this.category,
-            'pageType': this.pageType
+    initItemRows() {
+        return this.fb.group({
+            day: [''],
+            from: [''],
+            to: ['']
         });
-
     }
-
-    add(event: MatChipInputEvent): void {
-        const input = event.input;
-        const value = event.value;
-        if ((value || '').trim()) {
-            this.tags.push(value.trim());
-        }
-
-        if (input) {
-            input.value = '';
-        }
-    }
-
-    remove(tag): void {
-        const index = this.tags.indexOf(tag);
-
-        if (index >= 0) {
-            this.tags.splice(index, 1);
+    addPreferences(event, service) {
+        var control = <FormArray>this.staffForm.controls['preferences'];
+        if (event.checked) {
+            control.push(new FormControl(service.category + "|" + service._id))
+        } else {
+            const key = service.category + "|" + service._id;
+            var index = (<FormArray>this.staffForm.get('preferences')).controls.findIndex(x => x.value === key)
+            control.removeAt(index);
+            debugger
         }
     }
 
@@ -129,10 +123,10 @@ export class StaffSetupDialogComponent implements OnInit {
         if (this.data.service && this.data.service.id) {
             service.id = this.data.service.id;
         }
-        service.name = this.serviceForm.get('name').value;
-        service.price = this.serviceForm.get('priceInclTax').value;
-        service.gender = this.serviceForm.get('gender').value;
-        service.time = this.serviceForm.get('time').value;
+        service.name = this.staffForm.get('name').value;
+        service.price = this.staffForm.get('priceInclTax').value;
+        service.gender = this.staffForm.get('gender').value;
+        service.time = this.staffForm.get('time').value;
 
         const serviceRequest = new ServiceTypeDTO();
         const types = new Array<ServiceDTO>();
