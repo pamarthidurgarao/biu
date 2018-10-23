@@ -2,7 +2,7 @@ export class StaffDTO {
     name: string;
     gender: string;
     mobile: number;
-    preferedGender: number;
+    preferedGender: string;
     position: string;
     preferences: StaffPreferencesDTO[];
     timings: StaffTimingsDTO[];

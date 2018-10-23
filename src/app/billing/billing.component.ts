@@ -8,6 +8,7 @@ import html2canvas from 'html2canvas';
 import { CustomerService } from '../services/customer.service';
 import { CustomerDTO } from '../model/customer.model';
 import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { StaffDTO } from '../model/staff.model';
 
 @Component({
   selector: 'app-billing',
@@ -19,6 +20,7 @@ export class BillingComponent implements OnInit {
   sources = ['Email', 'Social Media', 'Friends'];
   customerForm: FormGroup;
   selectedServices: ServiceDTO[] = [];
+  staffData: StaffDTO[] = [];
   displayedColumns = ['name', 'provider', 'price', 'discount', 'netPrice', 'action'];
   serviceData: ServiceTypeDTO[];
   orgServiceData: ServiceTypeDTO[];
@@ -46,6 +48,13 @@ export class BillingComponent implements OnInit {
       this.orgServiceData = res.data;
     });
     this.searchCustomers();
+    this.loadStaffData();
+  }
+
+  loadStaffData() {
+    this.setupService.getAllStaff().subscribe(res => {
+      this.staffData = res.data;
+    });
   }
 
   createForm() {

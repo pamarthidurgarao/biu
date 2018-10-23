@@ -40,25 +40,30 @@
                     </mat-card>
                 </mat-tab>
                 <mat-tab label="Timings">
-                    <mat-list >
-                        <mat-list-item formArrayName="timings" *ngFor="let day1 of days; let i=index;" class="row">
-                            <div class="col-2">
-                                <mat-checkbox formControlName="day">{{day1}}</mat-checkbox>
-                            </div>
-                            <div class="col-8">
-                                <input type="time" formControlName="from"> &nbsp;
-                                <input type="time" formControlName="to">
-                            </div>
+                    <mat-list>
+                        <mat-list-item formArrayName="timings" *ngFor="let time of staffForm.get('timings').controls; let i=index;">
+                            <span [formGroupName]="i" class="row w-100">
+                                <div class="col-1">
+                                    <mat-checkbox formControlName="status"></mat-checkbox>
+                                </div>
+                                <div class="col-1">
+                                    <span>{{time.get('day').value}}</span>
+                                </div>
+                                <div class="col-8">
+                                    <input type="time" formControlName="from"> &nbsp;
+                                    <input type="time" formControlName="to">
+                                </div>
+                            </span>
                         </mat-list-item>
                     </mat-list>
                 </mat-tab>
             </mat-tab-group>
         </form>
-        <p>{{staffForm.value | json}}</p>
+        <!-- <p>{{staffForm.value | json}}</p> -->
     </div>
     <div class="foot">
         <div class="button-row">
-            <button mat-raised-button color="primary" (click)="addSubService()">Save</button>
+            <button mat-raised-button color="primary" (click)="addStaff()">Save</button>
             <button mat-raised-button color="primary" (click)="closeDailog()">Close</button>
         </div>
     </div>

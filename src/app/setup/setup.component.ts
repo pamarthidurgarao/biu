@@ -4,6 +4,7 @@ import { AddSetupDialogComponent } from './setup-dailog.component';
 import { ServiceTypeDTO, ServiceDTO } from '../model/service.model';
 import { SetupService } from '../services/setup.service';
 import { StaffSetupDialogComponent } from './staff-dailog.component';
+import { StaffDTO } from '../model/staff.model';
 
 @Component({
   selector: 'app-setup',
@@ -14,12 +15,26 @@ export class SetupComponent implements OnInit {
 
   constructor(public dialog: MatDialog, public setupService: SetupService) { }
   serviceData: ServiceTypeDTO[] = [];
+  staffData: StaffDTO[] = [];
   dataSource = new MatTableDataSource<ServiceTypeDTO>(this.serviceData);
+  staffDataSource = new MatTableDataSource<StaffDTO>(this.staffData);
   displayedColumns: string[] = ['name', 'price', 'time', 'gender', 'actions'];
+  staffDisplayedColumns: string[] = ['name', 'workFor', 'position', 'gender', 'actions'];
 
   ngOnInit() {
+    this.loadServices();
+    this.loadStaff();
+  }
+
+  loadServices() {
     this.setupService.getAllService().subscribe(res => {
       this.serviceData = res.data;
+    });
+  }
+
+  loadStaff() {
+    this.setupService.getAllStaff().subscribe(res => {
+      this.staffData = res.data;
     });
   }
   addService(event, category, pageType) {
@@ -83,5 +98,10 @@ export class SetupComponent implements OnInit {
   tableDatasource(serviceData) {
     this.dataSource = new MatTableDataSource<ServiceTypeDTO>(serviceData);
     return this.dataSource;
+  }
+
+  staffDatasource() {
+    this.staffDataSource = new MatTableDataSource<StaffDTO>(this.staffData);
+    return this.staffDataSource;
   }
 }

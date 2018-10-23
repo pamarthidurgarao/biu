@@ -5,6 +5,7 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material';
 import { ServiceDTO, ServiceTypeDTO } from '../model/service.model';
 import { SetupService } from '../services/setup.service';
+import { StaffDTO, StaffPreferencesDTO, StaffTimingsDTO } from '../model/staff.model';
 
 export interface Fruit {
     name: string;
@@ -58,6 +59,7 @@ export class StaffSetupDialogComponent implements OnInit {
         this.loadService();
         this.createForm();
         this.populateForm();
+        this.prepareTimings();
     }
 
     loadService() {
@@ -90,24 +92,31 @@ export class StaffSetupDialogComponent implements OnInit {
             this.staffForm.get('gender').setValue(this.data.service.gender);
         }
     }
+    prepareTimings() {
+        this.days.forEach(day => {
+            const control = <FormArray>this.staffForm.controls['timings'];
+            control.push(this.addTiming(day));
+        });
+    }
     onNoClick(): void {
         this.dialogRef.close();
     }
 
-    initItemRows() {
+    addTiming(day) {
         return this.fb.group({
-            day: [''],
+            status: [],
+            day: [day],
             from: [''],
             to: ['']
         });
     }
     addPreferences(event, service) {
-        var control = <FormArray>this.staffForm.controls['preferences'];
+        const control = <FormArray>this.staffForm.controls['preferences'];
         if (event.checked) {
-            control.push(new FormControl(service.category + "|" + service._id))
+            control.push(new FormControl(service.category + '|' + service._id));
         } else {
-            const key = service.category + "|" + service._id;
-            var index = (<FormArray>this.staffForm.get('preferences')).controls.findIndex(x => x.value === key)
+            const key = service.category + '|' + service._id;
+            const index = (<FormArray>this.staffForm.get('preferences')).controls.findIndex(x => x.value === key);
             control.removeAt(index);
             debugger
         }
@@ -117,26 +126,38 @@ export class StaffSetupDialogComponent implements OnInit {
         console.log('s');
         this.dialogRef.close();
     }
-    addService() {
-        console.log('s');
-        const service = new ServiceDTO();
-        if (this.data.service && this.data.service.id) {
-            service.id = this.data.service.id;
-        }
-        service.name = this.staffForm.get('name').value;
-        service.price = this.staffForm.get('priceInclTax').value;
-        service.gender = this.staffForm.get('gender').value;
-        service.time = this.staffForm.get('time').value;
 
-        const serviceRequest = new ServiceTypeDTO();
-        const types = new Array<ServiceDTO>();
-        serviceRequest.category = this.data.category;
-        types.push(service);
-        serviceRequest.types = types;
-
-        this.setupService.addService(serviceRequest).subscribe(response => {
-
+    addStaff() {
+        debugger
+        const staff = new StaffDTO();
+        staff.gender = this.staffForm.get('gender').value;
+        staff.mobile = this.staffForm.get('phone').value;
+        staff.name = this.staffForm.get('name').value;
+        staff.position = this.staffForm.get('position').value;
+        staff.preferedGender = this.staffForm.get('workFor').value;
+        const preferences = new Array<StaffPreferencesDTO>();
+        (<FormArray>this.staffForm.get('preferences')).controls.forEach(x => {
+            const pref = new StaffPreferencesDTO();
+            const res = x.value.split('|');
+            pref.name = res[0];
+            pref.id = res[1];
+            preferences.push(pref);
         });
-        this.dialogRef.close({ 'data': service, 'mode': this.action, 'category': this.category, 'pageType': this.pageType });
+        staff.preferences = preferences;
+        const timings = new Array<StaffTimingsDTO>();
+        (<FormArray>this.staffForm.get('timings')).controls.forEach(x => {
+            if (x.get('status').value) {
+                const sch = new StaffTimingsDTO();
+                sch.day = x.get('day').value;
+                sch.from = x.get('from').value;
+                sch.to = x.get('to').value;
+                timings.push(sch);
+            }
+        });
+        staff.timings = timings;
+        this.setupService.addStaff(staff).subscribe(response => {
+            debugger;
+        });
     }
+
 }

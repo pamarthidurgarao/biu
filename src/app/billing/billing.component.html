@@ -111,8 +111,7 @@
                         <th mat-header-cell *matHeaderCellDef> Service Provider </th>
                         <td mat-cell *matCellDef="let service">
                             <select id="inputState" class="form-control form-control-sm">
-                                <option selected>Male</option>
-                                <option>Female</option>
+                                <option *ngFor="let staff of staffData" [value]="staff.name">{{staff.name}}</option>
                             </select>
                         </td>
                     </ng-container>

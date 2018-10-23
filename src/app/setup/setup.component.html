@@ -80,5 +80,45 @@
           <mat-icon>add</mat-icon>
         </button>
       </mat-expansion-panel-header>
+      <div>
+
+          <table mat-table [dataSource]="staffDatasource()" >
+    
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef>Name</th>
+              <td mat-cell *matCellDef="let row">{{row.name}}</td>
+            </ng-container>
+    
+            <ng-container matColumnDef="workFor">
+              <th mat-header-cell *matHeaderCellDef>Work For</th>
+              <td mat-cell *matCellDef="let row">{{row.preferedGender}}</td>
+            </ng-container>
+    
+            <ng-container matColumnDef="position">
+              <th mat-header-cell *matHeaderCellDef>Position</th>
+              <td mat-cell *matCellDef="let row">{{row.position}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="gender">
+              <th mat-header-cell *matHeaderCellDef>Gender</th>
+              <td mat-cell *matCellDef="let row">{{row.gender}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef>Actions</th>
+              <td mat-cell *matCellDef="let row">
+                <button mat-icon-button color="primary" (click)="editService($event,service.category,row,'service')">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="danger">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+    
+            <tr mat-header-row *matHeaderRowDef="staffDisplayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: staffDisplayedColumns;"></tr>
+          </table>
+        </div>
     </mat-expansion-panel>
 </mat-accordion>
