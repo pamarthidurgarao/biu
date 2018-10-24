@@ -4,6 +4,8 @@ export class ServiceDTO {
     time: number;
     price: number;
     gender: string;
+    netPrice: number;
+    discount: number;
 }
 
 export class ServiceTypeDTO {

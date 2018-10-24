@@ -107,7 +107,8 @@ export class BillingComponent implements OnInit {
   calculateTotal() {
     this.totalAmount = 0;
     this.selectedServices.forEach(service => {
-      this.totalAmount = this.totalAmount + service.price;
+      debugger
+      this.totalAmount = this.totalAmount + (service.netPrice ? service.netPrice : service.price);
       this.payAmount = this.totalAmount;
     });
     this.applyDiscount();
@@ -168,6 +169,13 @@ export class BillingComponent implements OnInit {
         return;
       }
     });
+  }
+
+  applayIndDiscount(discount, service) {
+    debugger
+    service.discount = parseInt(discount, 10);
+    service.netPrice = (service.price - ((service.price / 100) * parseInt(discount, 10)));
+    this.calculateTotal();
   }
 
 }
