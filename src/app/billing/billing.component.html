@@ -129,15 +129,21 @@
                                         <mat-radio-button value="2">Amount</mat-radio-button>
                                     </mat-radio-group>
                                 </div> -->
-                                <div class="col-sm-6">
-                                    <input type="text" class="form-control form-control-sm col-sm-6" id="inputDiscount" placeholder="Discount" (blur)="applayIndDiscount($event.target.value,service)" type="number">
+                                <div class="col-sm-6 input-group">
+                                    <input type="text" class="form-control form-control-sm col-sm-6" id="inputDiscount" placeholder="Discount" (blur)="applayIndDiscount($event.target.value, service)"
+                                        type="number">
+                                    <select id="inputDiscountType" class="form-control form-control-sm col-sm-6" (change)="discountTypeChange($event.target.value, service)">
+                                        <option selected>Discount Type</option>
+                                        <option>Percentage</option>
+                                        <option>Amount</option>
+                                    </select>
                                 </div>
                             </div>
                         </td>
                     </ng-container>
                     <ng-container matColumnDef="netPrice">
                         <th mat-header-cell *matHeaderCellDef> Net Price </th>
-                        <td mat-cell *matCellDef="let service"> {{service.netPrice?service.netPrice : service.price }} </td>
+                        <td mat-cell *matCellDef="let service"> {{service.netPrice?service.netPrice : service.netPrice==0 ? service.netPrice : service.price }} </td>
                     </ng-container>
                     <ng-container matColumnDef="action">
                         <th mat-header-cell *matHeaderCellDef> Action </th>

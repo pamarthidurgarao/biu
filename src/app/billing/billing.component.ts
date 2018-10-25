@@ -37,7 +37,6 @@ export class BillingComponent implements OnInit {
   gender = '';
   phoneNumber = '';
   customers: CustomerDTO[] = [];
-  mobile: FormControl = new FormControl();
 
   constructor(public setupService: SetupService, private customerService: CustomerService, private fb: FormBuilder) { }
 
@@ -107,8 +106,8 @@ export class BillingComponent implements OnInit {
   calculateTotal() {
     this.totalAmount = 0;
     this.selectedServices.forEach(service => {
-      debugger
-      this.totalAmount = this.totalAmount + (service.netPrice ? service.netPrice : service.price);
+      this.totalAmount = this.totalAmount +
+        (service.netPrice ? service.netPrice : service.netPrice === 0 ? service.netPrice : service.price);
       this.payAmount = this.totalAmount;
     });
     this.applyDiscount();
@@ -172,10 +171,24 @@ export class BillingComponent implements OnInit {
   }
 
   applayIndDiscount(discount, service) {
-    debugger
     service.discount = parseInt(discount, 10);
-    service.netPrice = (service.price - ((service.price / 100) * parseInt(discount, 10)));
-    this.calculateTotal();
+    this.calculateIndDiscount(service);
   }
 
+  discountTypeChange(type, service) {
+    service.discountType = type;
+    if (service.discount) {
+      this.calculateIndDiscount(service);
+    }
+  }
+
+  calculateIndDiscount(service) {
+    debugger
+    if (service.discountType === 'Percentage') {
+      service.netPrice = (service.price - ((service.price / 100) * parseInt(service.discount, 10)));
+    } else if (service.discountType === 'Amount') {
+      service.netPrice = (service.price - parseInt(service.discount, 10));
+    }
+    this.calculateTotal();
+  }
 }

@@ -6,6 +6,7 @@ export class ServiceDTO {
     gender: string;
     netPrice: number;
     discount: number;
+    discountType: string;
 }
 
 export class ServiceTypeDTO {
