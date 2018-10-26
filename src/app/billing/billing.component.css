@@ -26,7 +26,7 @@ mat-grid-tile {
 }
 
 .example-container {
-    height: 40%;
+    /* height: 40%; */
     overflow: auto;
   }
   
@@ -65,4 +65,10 @@ label{
 
 .form-control-sm {
     border-radius: 0px!important;
+}
+
+.utility{
+    position: absolute;
+    width: 100%;
+    bottom: 0px;
 }

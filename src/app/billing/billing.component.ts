@@ -37,6 +37,7 @@ export class BillingComponent implements OnInit {
   gender = '';
   phoneNumber = '';
   customers: CustomerDTO[] = [];
+  selectedTableHeight = window.innerHeight - 350;
 
   constructor(public setupService: SetupService, private customerService: CustomerService, private fb: FormBuilder) { }
 
