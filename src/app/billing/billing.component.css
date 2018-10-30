@@ -12,13 +12,13 @@ mat-grid-tile {
   }
 
 .left-body {
-    width: 40%;
+    width: 20%;
     position: absolute;
     bottom: 0px;
     top: 110px;
 }
 .right-body {
-    width: 60%;
+    width: 80%;
     position: absolute;
     right: 0px;
     bottom: 0px;

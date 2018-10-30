@@ -1,0 +1,67 @@
+.red-1{
+    background-color: #aa0000;
+}
+.red-2{
+    background-color: #e50b00;
+}
+
+.green-1{
+    background-color: #006e00;
+}
+.green-2{
+    background-color: #399e18;
+}
+
+.blue-1{
+    background-color: #00226f;
+}
+.blue-2{
+    background-color: #2c499e;
+}
+
+.purpul-1{
+    background-color: #6c0067;
+}
+.purpul-2{
+    background-color: #9e2096;
+}
+
+.red-1{
+    background-color: #aa0000;
+}
+.red-2{
+    background-color: #e50b00;
+}
+
+.red-1{
+    background-color: #aa0000;
+}
+.red-2{
+    background-color: #e50b00;
+}
+
+.header{
+    background-color: rgb(255, 255, 255);;
+}
+
+.dashboard{
+    background-color: rgb(243, 243, 243);
+}
+.dIcon{
+    font-size: 48px;
+    height: 48px;
+    width: 48px;
+    line-height: 48px;
+}
+.dTitle{
+    font-size: 18px;
+}
+.dValue{
+    font-size: 40px;
+}
+.l-50{
+    left: 50%
+} 
+.t-50 {
+    top:50%
+}

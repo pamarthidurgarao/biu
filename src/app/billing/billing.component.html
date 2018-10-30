@@ -2,7 +2,7 @@
     <div class="head">
         <form [formGroup]="customerForm">
             <div class="form-row">
-                <div class="form-group col-sm-2">
+                <!-- <div class="form-group col-sm-2">
                     <label for="inputEmail4" class="col-form-label-sm">Origin</label>
                     <select id="inputState" class="form-control form-control-sm">
                         <option selected>Walk-In</option>
@@ -15,7 +15,7 @@
                         <option>Just Dial</option>
                         <option>Friend Referral</option>
                     </select>
-                </div>
+                </div> -->
                 <div class="form-group col-sm-2">
                     <label for="inputPassword4" class="col-form-label-sm">Mobile Number</label>
                     <input type="text" class="form-control form-control-sm" [matAutocomplete]="auto" id="inputPassword4" formControlName="mobile"
@@ -38,16 +38,7 @@
                     </select>
                 </div>
 
-                <div class="form-group col-sm-2">
-                    <label for="inputPassword4" class="col-form-label-sm">Date</label>
-                    <div class="input-group">
-                        <input class="form-control form-control-sm" [matDatepicker]="picker" placeholder="Select Date" formControlName="dob">
-                        <mat-datepicker #picker></mat-datepicker>
-                        <div class="input-group-text form-control-sm" color="primary">
-                            <mat-icon (click)="picker.open()">date_range</mat-icon>
-                        </div>
-                    </div>
-                </div>
+
             </div>
         </form>
     </div>
@@ -132,10 +123,10 @@
                                 <div class="col-sm-6 input-group">
                                     <input type="text" class="form-control form-control-sm col-sm-6" id="inputDiscount" placeholder="Discount" (blur)="applayIndDiscount($event.target.value, service)"
                                         type="number">
-                                    <select id="inputDiscountType" class="form-control form-control-sm col-sm-6" (change)="discountTypeChange($event.target.value, service)">
-                                        <option selected>Discount Type</option>
-                                        <option>Percentage</option>
-                                        <option>Amount</option>
+                                    <select id="inputDiscountType" class="form-control form-control-sm col-sm-2" (change)="discountTypeChange($event.target.value, service)">
+                                        <option selected>--</option>
+                                        <option>%</option>
+                                        <option>₹</option>
                                     </select>
                                 </div>
                             </div>
@@ -164,12 +155,18 @@
                     <span class="float-sm-right">{{totalAmount}}</span>
                 </div>
                 <mat-divider></mat-divider>
-                <div class="discount">
-                    <span>Discount</span>
-                    <span class="float-sm-right">
-                        <input type="text" class="form-control form-control-sm" style="width: 70px;" (blur)="applyDiscount()" [(ngModel)]="discount"
-                            placeholder="%">
-                    </span>
+                <div class="row discount">
+                    <div class="col-10">
+                        <span>Discount</span>
+                    </div>
+                    <div class="col-2 float-sm-right input-group">
+                        <select id="inputDiscountType" class="form-control form-control-sm col-sm-6" (change)="discountTypeChange($event.target.value, service)">
+                            <option selected>Type</option>
+                            <option>%</option>
+                            <option>₹</option>
+                        </select>
+                        <input type="text" class="form-control form-control-sm col-sm-6" (blur)="applyDiscount()" [(ngModel)]="discount" placeholder="%">
+                    </div>
                 </div>
                 <span class="p-2">Membership Verification</span>
                 <mat-divider></mat-divider>
@@ -184,14 +181,23 @@
                     </div>
                 </div>
                 <mat-divider></mat-divider>
-                <!-- <div class="mb-3"> -->
-                    <button mat-raised-button color="primary" class="float-sm-right" (click)="generateBill()">
-                        Generate Bill
-                    </button>
-                    <button mat-raised-button color="primary" class="float-sm-right mr-3" (click)="hideEle()">
-                        Book Appointment
-                    </button>
-                <!-- </div> -->
+                <div class="row">
+                    <div class="col-8">
+                    </div>
+        
+                    <div class="col-2">
+                        <select id="inputDiscountType" class="form-control form-control-sm" (change)="discountTypeChange($event.target.value, service)">
+                            <option selected>Payment Method</option>
+                            <option>Paytm</option>
+                            <option>Card</option>
+                        </select>
+                    </div>
+                    <div class="col-2">
+                        <button mat-raised-button color="primary" class="float-sm-right" (click)="generateBill()">
+                            Generate Bill
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -185,9 +185,9 @@ export class BillingComponent implements OnInit {
 
   calculateIndDiscount(service) {
     debugger
-    if (service.discountType === 'Percentage') {
+    if (service.discountType === '%') {
       service.netPrice = (service.price - ((service.price / 100) * parseInt(service.discount, 10)));
-    } else if (service.discountType === 'Amount') {
+    } else if (service.discountType === '₹') {
       service.netPrice = (service.price - parseInt(service.discount, 10));
     }
     this.calculateTotal();
