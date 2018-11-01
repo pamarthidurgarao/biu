@@ -4,6 +4,13 @@ import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { StaffDTO, StaffResponse } from '../model/staff.model';
 import { Constants } from '../constants';
+import { ProductDTO, ProductResponse } from '../model/product.model';
+
+const HEADER = {
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+  }
+};
 
 @Injectable({
   providedIn: 'root'
@@ -20,9 +27,7 @@ export class SetupService {
   }
 
   addService(service: ServiceTypeDTO): Observable<any> {
-    return this.http.post<any>(Constants.HOST_URL + '/api/service', service, {
-      headers: { 'Content-Type': 'application/json; charset=utf-8' }
-    });
+    return this.http.post<any>(Constants.HOST_URL + '/api/service', service, HEADER);
   }
 
   getAllStaff(): Observable<StaffResponse> {
@@ -30,6 +35,15 @@ export class SetupService {
   }
 
   addStaff(staff: StaffDTO): Observable<any> {
-    return this.http.post<any>(Constants.HOST_URL + '/api/staff', staff);
+    return this.http.post<any>(Constants.HOST_URL + '/api/staff', staff, HEADER);
   }
+
+  getAllProducts(): Observable<ProductResponse> {
+    return this.http.get<ProductResponse>(Constants.HOST_URL + '/api/product');
+  }
+
+  addProduct(product: ProductDTO): Observable<any> {
+    return this.http.post<any>(Constants.HOST_URL + '/api/product', product, HEADER);
+  }
+
 }

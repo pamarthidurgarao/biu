@@ -1,0 +1,32 @@
+<div>
+    <div class="head">
+        <span>{{action}} Product</span>
+    </div>
+    <div class="body">
+
+        <form class="example-container" [formGroup]="productForm">
+            <mat-form-field>
+                <input matInput placeholder="Name" formControlName="name">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Price" formControlName="price" type="number">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Quantity" formControlName="quantity">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Stock" formControlName="stock"  type="number">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Brand" formControlName="brand">
+            </mat-form-field>
+        </form>
+        <!-- <p>{{staffForm.value | json}}</p> -->
+    </div>
+    <div class="foot">
+        <div class="button-row">
+            <button mat-raised-button color="primary" (click)="addProduct()">Save</button>
+            <button mat-raised-button color="primary" (click)="closeDailog()">Close</button>
+        </div>
+    </div>
+</div>

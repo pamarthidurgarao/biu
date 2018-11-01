@@ -5,6 +5,8 @@ import { ServiceTypeDTO, ServiceDTO } from '../model/service.model';
 import { SetupService } from '../services/setup.service';
 import { StaffSetupDialogComponent } from './staff-dailog.component';
 import { StaffDTO } from '../model/staff.model';
+import { ProductDTO } from '../model/product.model';
+import { ProductSetupDialogComponent } from './product-dailog.component';
 
 @Component({
   selector: 'app-setup',
@@ -16,14 +18,18 @@ export class SetupComponent implements OnInit {
   constructor(public dialog: MatDialog, public setupService: SetupService) { }
   serviceData: ServiceTypeDTO[] = [];
   staffData: StaffDTO[] = [];
+  productData: ProductDTO[] = [];
   dataSource = new MatTableDataSource<ServiceTypeDTO>(this.serviceData);
   staffDataSource = new MatTableDataSource<StaffDTO>(this.staffData);
+  productsDataSource = new MatTableDataSource<ProductDTO>(this.productData);
   displayedColumns: string[] = ['name', 'price', 'time', 'gender', 'actions'];
   staffDisplayedColumns: string[] = ['name', 'workFor', 'position', 'gender', 'actions'];
+  productDisplayedColumns: string[] = ['name', 'brand', 'price', 'quantity', 'actions'];
 
   ngOnInit() {
     this.loadServices();
     this.loadStaff();
+    this.loadProduct();
   }
 
   loadServices() {
@@ -37,6 +43,13 @@ export class SetupComponent implements OnInit {
       this.staffData = res.data;
     });
   }
+
+  loadProduct() {
+    this.setupService.getAllProducts().subscribe(res => {
+      this.productData = res.data;
+    });
+  }
+
   addService(event, category, pageType) {
     this.openDialog('Add', category, undefined, pageType);
     event.stopPropagation();
@@ -87,13 +100,30 @@ export class SetupComponent implements OnInit {
 
     staffDialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed' + result);
+    });
+  }
+
+  openProductDialog(mode, product, category): void {
+    const productDialogRef = this.dialog.open(ProductSetupDialogComponent, {
+      width: '90%',
+      height: '300px',
+      panelClass: 'addProduct',
+      data: { 'mode': mode, 'product': product, 'category': category }
+    });
+
+    productDialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed' + result);
 
     });
   }
+
+  addProduct($event, data, category) {
+    this.openProductDialog('Add', data, category);
+  }
+
   addStaff($event, mode, data) {
     this.openStaffDialog(mode, data);
   }
-
 
   tableDatasource(serviceData) {
     this.dataSource = new MatTableDataSource<ServiceTypeDTO>(serviceData);
@@ -103,5 +133,10 @@ export class SetupComponent implements OnInit {
   staffDatasource() {
     this.staffDataSource = new MatTableDataSource<StaffDTO>(this.staffData);
     return this.staffDataSource;
+  }
+
+  productDatasource(products) {
+    this.productsDataSource = new MatTableDataSource<ProductDTO>(products);
+    return this.productsDataSource;
   }
 }

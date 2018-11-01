@@ -22,6 +22,7 @@ import { CustomerService } from './services/customer.service';
 import { SetupComponent } from './setup/setup.component';
 import { AddSetupDialogComponent } from './setup/setup-dailog.component';
 import { StaffSetupDialogComponent } from './setup/staff-dailog.component';
+import { ProductSetupDialogComponent } from './setup/product-dailog.component';
 import { SetupService } from './services/setup.service';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -37,6 +38,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     ScheduleComponent,
     DashboardComponent,
     StaffSetupDialogComponent,
+    ProductSetupDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -56,6 +58,6 @@ import { DashboardComponent } from './dashboard/dashboard.component';
   ],
   providers: [CustomerService, SetupService],
   bootstrap: [AppComponent],
-  entryComponents: [AddCustomerDialogComponent, AddSetupDialogComponent, StaffSetupDialogComponent]
+  entryComponents: [AddCustomerDialogComponent, AddSetupDialogComponent, StaffSetupDialogComponent, ProductSetupDialogComponent]
 })
 export class AppModule { }

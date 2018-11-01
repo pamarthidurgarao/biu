@@ -55,12 +55,13 @@
                 </div>
                 <div class="form-group col-sm-3">
                     <label for="inputEmail4" class="col-form-label-sm">Products</label>
-                    <select id="inputState" class="form-control form-control-sm">
-                        <option selected value="all">All</option>
-                        <option>...</option>
+                    <select id="inputState" class="form-control form-control-sm" (change)="productSelect($event.target.value)">
+                        <option selected value="All">All</option>
+                        <option *ngFor="let product of orgProductData" [value]="product.category">{{product.category}}</option>
                     </select>
                 </div>
             </div>
+            <h6>Service</h6>
             <mat-accordion>
                 <mat-expansion-panel *ngFor="let service of serviceData">
                     <mat-expansion-panel-header>
@@ -88,6 +89,34 @@
                     </mat-list>
                 </mat-expansion-panel>
             </mat-accordion>
+            <h6 class="mt-1">Products</h6>
+            <mat-accordion>
+                    <mat-expansion-panel *ngFor="let product of productData">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                {{product.category}}
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <mat-list role="list">
+                            <mat-list-item role="listitem" *ngFor="let produ of product.products">
+                                <div>
+                                    <span class="itemHead">{{produ.name}}</span>
+                                    <div style="color: darkgray">
+                                        <span class="timeDesc">{{produ.quantity}}</span>
+                                        <span>&nbsp;|&nbsp;</span>
+                                        <span>{{produ.brand}}</span>
+                                    </div>
+                                </div>
+                                <div style="right: 0px; position: absolute">
+                                    <span>{{produ.price}}</span>
+                                    &nbsp;
+                                    <mat-checkbox id="{{produ.name}}-{{produ.id}}" (change)="addService(produ,$event)" [disabled]="checkBoxStatus(produ)"
+                                        [checked]="checkBoxStatus(produ)"></mat-checkbox>
+                                </div>
+                            </mat-list-item>
+                        </mat-list>
+                    </mat-expansion-panel>
+                </mat-accordion>
         </div>
 
 

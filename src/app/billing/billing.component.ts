@@ -9,6 +9,7 @@ import { CustomerService } from '../services/customer.service';
 import { CustomerDTO } from '../model/customer.model';
 import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { StaffDTO } from '../model/staff.model';
+import { ProductDTO } from '../model/product.model';
 
 @Component({
   selector: 'app-billing',
@@ -21,9 +22,12 @@ export class BillingComponent implements OnInit {
   customerForm: FormGroup;
   selectedServices: ServiceDTO[] = [];
   staffData: StaffDTO[] = [];
+  productData: ProductDTO[] = [];
   displayedColumns = ['name', 'provider', 'price', 'discount', 'netPrice', 'action'];
   serviceData: ServiceTypeDTO[];
   orgServiceData: ServiceTypeDTO[];
+
+  orgProductData: ProductDTO[];
   dataSource = new MatTableDataSource<any>(this.selectedServices);
   totalAmount = 0;
   payAmount = 0;
@@ -49,6 +53,7 @@ export class BillingComponent implements OnInit {
     });
     this.searchCustomers();
     this.loadStaffData();
+    this.loadProductData();
   }
 
   loadStaffData() {
@@ -57,6 +62,12 @@ export class BillingComponent implements OnInit {
     });
   }
 
+  loadProductData() {
+    this.setupService.getAllProducts().subscribe(res => {
+      this.productData = res.data;
+      this.orgProductData = res.data;
+    });
+  }
   createForm() {
     this.customerForm = this.fb.group({
       origin: [''],
@@ -101,6 +112,15 @@ export class BillingComponent implements OnInit {
       this.serviceData = this.orgServiceData;
     } else {
       this.serviceData = this.orgServiceData.filter(data => data.category === serviceType);
+    }
+  }
+
+  productSelect(productType) {
+    debugger
+    if (productType === 'All') {
+      this.productData = this.orgProductData;
+    } else {
+      this.productData = this.orgProductData.filter(data => data.category === productType);
     }
   }
 
