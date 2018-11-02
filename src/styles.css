@@ -1,4 +1,186 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese');
+body { 
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  background-color:#fff;
+  color:#000;
+}
+a:hover,a:focus{
+  text-decoration: none;
+}
+h1{
+  font-weight: 600; font-size: 22px;
+}
+header{
+  top:0;
+  width: 100%;
+  left: 0;
+  right: 0;
+  min-height: 50px; max-height: 50px;
+  z-index: 9999;
+  background-color: #fff;
+      align-items: center;
+    display: flex;
+}
+.body-content{
+  background-color: #f2edf3;
+  margin-top: 50px;
+  transition: 0.5s;
+}
+.menu{
+  position: absolute;
+  left: 0;
+  top:50px;
+  background: #fff;
+  height: 100%;
+  max-width: 200px;
+  width: 100%;
+  z-index: 9990;
+  transition: 0.5s;
+}
+.menuExpand .body-content{
+  margin-left: 200px !important;
+}
+.menuCollapse .body-content{
+  margin-left: 50px;
+}
+.menuExpand .menu{
+  max-width:200px !important;
+}
+.menuCollapse .menu{
+  max-width:50px;
+}
+.menu ul li a{
+  color:#000;
+  display: block;
+}
+.menu ul li{
+  position: relative;
+  border-color:transparent; min-height: 46px;
+}
+.purple .menu ul li:hover a,.menu ul li:hover .icons{
+color:#c076fd;
+}
 
-html, body { height: 100%; }
-body { margin: 0; font-family: 'Roboto', sans-serif; }
+.menu ul li a .icons{
+  position: absolute;
+    right: 15px;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    color: #c2aec5;
+    min-width:24px;
+        justify-content: center;
+}
+.menuCollapse .menu .menuTxt{
+display: none;
+}
+.menuExpand .menu .menuTxt{
+display: block !important;
+}
+.menu-list li{
+color:#3a4555; position: relative;
+}
+.menuExpand .logoImage{ display: block !important;}
+.menuExpand .logoIcon{display: none !important;}
+.menuCollapse .logoImage{ display: none;}
+.menuCollapse .logoIcon{display: block;}
+
+.dropdown-toggle::after{
+    top: 2px;
+    position: relative;
+    left: -4px;
+}
+.rowspace5{
+  margin-left: -5px;
+  margin-right: -5px;
+}
+.rowspace5 .col-sm-4{
+  padding-left:5px; padding-right: 5px;
+}
+.contentBlock .title{
+  border-bottom: 1px solid #f1f1f1;
+}
+.contentBlock .content table{
+  width:100%;
+}
+.contentBlock .content table th{
+  font-size: 14px; color: #c076fd; font-weight:500; padding: 0.5rem 0.9rem;
+  border-color:#f3f3f3;
+}
+.contentBlock .content table td{
+  font-size: 13px; color: #3a4555; font-weight:400; padding: 0rem 0.9rem;
+  border-color:#f3f3f3; 
+}
+.contentBlock .content table tr{
+  height: auto;
+}
+.contentBlock .content .mat-paginator-page-size,.contentBlock .content  .contentBlock .contentBlock .content .mat-paginator-range-actions,.contentBlock .content .mat-paginator-range-label{
+font-size: 13px; color: #3a4555; font-weight:400;
+}
+.contentBlock .content .mat-paginator-icon{
+width:18px;
+}
+.form-control{
+  height: calc(2.05rem + 1px);
+  font-size: 13px;
+}
+.contentBlock .content .mat-paginator{
+  border-radius: .25rem!important;
+}
+/*Theme */
+.purple .priceBlock .totalCash{
+ color: #c076fd;
+}
+.purple .text-theme{
+  color: #c076fd;
+}
+/*Theme*/
+.font-size-16{
+  font-size: 16px;
+}
+.inline-radio .mat-radio-label{margin-right: 15px; font-weight: 400;}
+.inline-radio .mat-radio-label .mat-radio-label-content{
+ position: relative;
+    left: -8px;
+    top: -1px;
+}
+.inline-radio .mat-radio-button.mat-accent .mat-radio-inner-circle{
+      background-color: #c076fd;
+    position: relative;
+    left: -2px;
+    top: -2px;
+}
+.inline-radio .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
+   border-color: #c076fd;
+}
+.inline-radio .mat-radio-label .mat-radio-outer-circle{
+  width:16px; height: 16px;
+}
+.menIcon {
+    font-size: 18px;
+    position: relative;
+    top: 2px;
+    color: #3f51b5;
+}
+@media only screen and (max-width: 580px) {
+   .menuCollapse .body-content{
+  margin-left:0px;
+}
+.menuCollapse .menu{
+    min-width: 0;
+    transform: translateX(-50px);
+}
+
+}
+.img-fluid.logoIcon {
+    height: 38px;
+    width: 40px;
+}
+
+.img-fluid.logoImage {
+    height: 40px;
+}

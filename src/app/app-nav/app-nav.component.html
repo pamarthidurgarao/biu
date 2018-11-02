@@ -1,36 +1,39 @@
-<mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #drawer class="sidenav" fixedInViewport="true" [attr.role]="'dialog'">
-    <mat-toolbar color="primary">Menu</mat-toolbar>
-    <mat-nav-list (click)="drawer.toggle()">
-      <a mat-list-item href="dashboard">Dashboard</a>
-      <a mat-list-item href="billing">Billing</a>
-      <a mat-list-item href="schedule">Schedule</a>
-      <a mat-list-item href="customer">Customers</a>
-      <a mat-list-item href="setup">Setup</a>
-      <a mat-list-item href="#">Reports</a>
-    </mat-nav-list>
-  </mat-sidenav>
-  <mat-sidenav-content>
-    <mat-toolbar color="primary">
-      <mat-toolbar-row>
-        <div class="leftHead">
-          <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()">
-            <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-          </button>
-          <span>Org</span>
-        </div>
-        <div class="rightHead">
-          <img [matMenuTriggerFor]="profileMenu" class="profileImg" src="https://cdn.iconscout.com/public/images/icon/premium/png-256/account-avatar-male-man-person-profile-363ed8899dda8c42-256x256.png">
-        </div>
-      </mat-toolbar-row>
-      <mat-menu #profileMenu="matMenu" class="profileMenuStyle">
-        <button mat-menu-item>
-          <mat-icon>exit_to_app</mat-icon>
-          <span>Log Out</span>
-        </button>
-      </mat-menu>
-    </mat-toolbar>
-    <!-- Add Content Here -->
-    <router-outlet></router-outlet>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+<div class="menuCollapse {{menutoggle}} {{themeColor}}">
+    <main>
+      <header class="p-2 position-fixed">
+        <div class="col-6 p-0" (click)="MenuToggle()">
+          <img src="http://purepng.com/public/uploads/large/purepng.com-disney-logologobrand-logoiconslogos-251519939495wtv86.png" class="img-fluid logoImage" alt="image"/>
+       <img src="https://thingiverse-production-new.s3.amazonaws.com/assets/85/3e/dc/97/c7/nightwing-logo.png" class="img-fluid logoIcon" alt="icon"/>
+      </div>
+      <div class="col-6 p-0">
+        <ul class="list-inline mb-0 text-right menu-list">
+          <li class="list-inline-item userProfile">
+            <div class="dropdown">
+              <a class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-user-circle menIcon"></i> Nagarjuna
+              </a>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#">Profile</a>
+                <a class="dropdown-item" href="#">Settings</a>
+                <a class="dropdown-item" href="#">Logout</a>
+              </div>
+            </div>
+          </li>				
+        </ul>
+      </div>
+    </header>
+    <div class="body-content p-3">
+        <router-outlet></router-outlet>
+    </div>
+  </main>
+  <aside class="menu">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item"><a routerLink="dashboard"><span class="menuTxt">Dashboard</span> <span class="icons"><i class="fas fa-home"></i></span></a></li>
+      <li class="list-group-item"><a routerLink="billing"><span class="menuTxt">Billing</span> <span class="icons"><i class="far fa-money-bill-alt"></i></span></a></li>
+      <li class="list-group-item"><a routerLink="schedule"><span class="menuTxt">Schedule</span> <span class="icons"><i class="far fa-calendar-alt"></i></span></a></li>
+      <li class="list-group-item"><a routerLink="customers"><span class="menuTxt">Customers</span> <span class="icons"><i class="fas fa-users"></i></span></a></li>
+      <li class="list-group-item"><a routerLink="setup"><span class="menuTxt">Setup</span> <span class="icons"><i class="fas fa-cogs"></i></span></a></li>
+      <li class="list-group-item"><a routerLink="reports"><span class="menuTxt">Reports</span> <span class="icons"><i class="fas fa-file-alt"></i></span></a></li>
+    </ul>
+  </aside>
+  </div>

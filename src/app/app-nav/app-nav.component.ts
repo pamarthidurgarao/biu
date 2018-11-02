@@ -14,7 +14,18 @@ export class AppNavComponent {
     .pipe(
       map(result => result.matches)
     );
-    
-  constructor(private breakpointObserver: BreakpointObserver) {}
-  
+
+  constructor(private breakpointObserver: BreakpointObserver) { }
+
+  themeColor = 'purple';
+  menutoggle = null;
+  MenuToggle() {
+    if (this.menutoggle) {
+      this.menutoggle = null;
+    } else {
+      this.menutoggle = 'menuExpand';
+    }
   }
+
+}
+
